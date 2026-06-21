@@ -51,9 +51,9 @@ const typeStyle = {
 // Uke 10: Retest
 
 const WEEKS = [
-  { week: 1, label: "Teknikk I", location: "🏠 Hjemme", type: "intro1", desc: "Lær bevegelsene. 2 styrkeøkter. Lett ankel. Ingen plyo ennå." },
-  { week: 2, label: "Teknikk II", location: "🌊 Istria", type: "intro1", desc: "Istria — treningsrom tilgjengelig. Samme øvelser, litt mer vekt." },
-  { week: 3, label: "Oppbygging I", location: "🌊 Istria", type: "intro2", desc: "Istria — introduserer lett plyometri. Ankel økes til 4x/uke." },
+  { week: 1, label: "Teknikk I", location: "🏠 Hjemme", type: "intro1", desc: "Lær bevegelsene. 2 styrkeøkter + lett plyo. Ankelhopp og myke landinger." },
+  { week: 2, label: "Teknikk II", location: "🌊 Istria", type: "intro1", desc: "Istria — mer vekt på styrke. Mer volum på plyo. Intro til pogo." },
+  { week: 3, label: "Oppbygging I", location: "🌊 Istria", type: "intro2", desc: "Istria — plyo 3x/uke nå. Reaktivhopp intro. Ankel økes til 4x/uke." },
   { week: 4, label: "Reiseuke", location: "🚗 På veien", type: "travel", desc: "Ingen fasiliteter. Kun kroppsvekt på hotellrom/uteområde." },
   { week: 5, label: "Oppbygging II", location: "🏠 Hjemme", type: "intro2", desc: "Hjemme igjen. Gjenstart på uke 3-nivå — ikke rush opp." },
   { week: 6, label: "Toppbelastning I", location: "🏠 Hjemme", type: "full", desc: "3 styrkeøkter. Full plyo. Ankel daglig. Her gir vi alt." },
@@ -71,14 +71,14 @@ const WEEKS = [
 
 const SESSION_MAP = {
   intro1: {
-    1: ["styrke-a", "ankel-lett"],
+    1: ["styrke-a", "plyo-intro", "ankel-lett"],
     3: ["ankel-lett"],
-    5: ["styrke-b", "ankel-lett"],
+    5: ["styrke-b", "plyo-intro", "ankel-lett"],
   },
   intro2: {
-    1: ["styrke-a", "ankel-lett"],
+    1: ["styrke-a", "plyo-intro", "ankel-lett"],
     3: ["plyo-intro", "ankel-lett"],
-    5: ["styrke-b", "ankel-lett"],
+    5: ["styrke-b", "plyo-intro", "ankel-lett"],
     6: ["ankel-lett"],
   },
   full: {
@@ -394,29 +394,85 @@ const EXERCISES = {
     ],
   },
 
-  // ── PLYOMETRI INTRO (uke 3, 5, 8–9) ───────────────────────
+  // ── PLYOMETRI INTRO ───────────────────────────────────────
+  // fase1 = uke 1 (ankelhopp + myk landing)
+  // fase2 = uke 2 (+ pogo)
+  // fase3 = uke 3+5 (+ lateral reaktiv)
   "plyo-intro": {
     fase1: [
       {
         id:"pi-ankbi", name:"Ankelhopp bilateral",
-        sets:"3×8", load:"Kroppsvekt", weight:null,
+        sets:"3×10", load:"Kroppsvekt", weight:null,
         note:"«Varm potet» — kort kontakttid.",
-        desc:"Stå med føtter i hoftebredde og hopp raskt opp og ned med nesten ingen bøy i kne og hofte. Tenk at gulvet er varmt — minst mulig tid nede. Start med 8 repetisjoner.",
+        desc:"Stå med føtter i hoftebredde og hopp raskt opp og ned. Nesten ingen bøy i kne og hofte — all kraft fra anklene. Tenk at gulvet er varmt. Du har gjort dette fra basketball, bare mer bevisst nå.",
         video:"https://youtu.be/Yd9VXHRe5Dw"
       },
       {
-        id:"pi-softland", name:"Myk landing fra boks",
+        id:"pi-softland", name:"Myk landing fra boks — ett bein",
         sets:"3×5 per bein", load:"20 cm boks", weight:null,
-        note:"Frys stillingen 2 sek — kontroll.",
-        desc:"Stå på en lav boks og hopp ned på ett bein. Land mykt med lett bøy i kneet og hold stillingen i 2 sekunder uten å vakle. Lær kroppen å lande trygt på ett bein.",
+        note:"Frys 2 sek i landing — kne stabilt.",
+        desc:"Stå på en lav boks og hopp ned på ett bein. Land mykt med lett bøy i kneet og hold stillingen i 2 sekunder. Viktig: kneet skal ikke kollapse innover. Lær kroppen å lande trygt.",
+        video:"https://youtu.be/5kDPCRqMqzw"
+      },
+    ],
+    fase2: [
+      {
+        id:"pi-ankbi2", name:"Ankelhopp bilateral",
+        sets:"3×12", load:"Kroppsvekt", weight:null,
+        note:"Raskere enn uke 1 — kortere kontakt.",
+        desc:"Samme som uke 1 men med mer fart og flere reps. Fokus på å minimere kontakttiden ytterligere. Du skal begynne å kjenne ankelstyrkingen fra forrige uke.",
+        video:"https://youtu.be/Yd9VXHRe5Dw"
+      },
+      {
+        id:"pi-softland2", name:"Myk landing fra boks — ett bein",
+        sets:"3×5 per bein", load:"20–25 cm boks", weight:null,
+        note:"Litt høyere boks denne uka.",
+        desc:"Samme øvelse som uke 1, men fra litt høyere boks. Mer kraft å absorbere — kne stabilt og hofte ikke synke til siden.",
         video:"https://youtu.be/5kDPCRqMqzw"
       },
       {
         id:"pi-pogo", name:"Pogo hopp fremover",
-        sets:"2×8m", load:"Kroppsvekt", weight:null,
-        note:"Stiff ankler, dekk 8 meter.",
-        desc:"Beveg deg fremover med raske, fjærende ankelhopp. Hold bena nesten strake. Anklene er fjærer — korttest mulig tid på bakken. Begynn forsiktig de første gangene.",
+        sets:"2×10m", load:"Kroppsvekt", weight:null,
+        note:"Stiff ankler, dekk 10 meter.",
+        desc:"Ny øvelse denne uka. Beveg deg fremover med raske, fjærende ankelhopp. Hold bena nesten strake — all kraft fra anklene. Dekk 10 meter per sett.",
         video:"https://youtu.be/etLFCXAkHM4"
+      },
+    ],
+    fase3: [
+      {
+        id:"pi-ankbi3", name:"Ankelhopp bilateral",
+        sets:"3×12", load:"Kroppsvekt", weight:null,
+        note:"Maks fart nå.",
+        desc:"Korteste mulige kontakttid. Du har nå tre uker med ankelhopp — det skal kjennes lettere og raskere enn uke 1.",
+        video:"https://youtu.be/Yd9VXHRe5Dw"
+      },
+      {
+        id:"pi-ankr", name:"Enkeltbens ankelhopp — høyre",
+        sets:"3×8", load:"Kroppsvekt", weight:null,
+        note:"Ny: ett bein. Start høyre.",
+        desc:"Samme som bilateral versjon men på ett bein. Mer krevende for balansen. Start med høyre. Bruk en vegg nær deg om nødvendig.",
+        video:"https://youtu.be/Yd9VXHRe5Dw"
+      },
+      {
+        id:"pi-softland3", name:"Myk landing fra boks — ett bein",
+        sets:"3×5 per bein", load:"25–30 cm boks", weight:null,
+        note:"Høyeste boks hittil.",
+        desc:"Enda høyere boks. Mer kraft inn i ankelen og kneet. Hold stillingen 2 sek. Nå begynner dette å ligne basketball-bevegelser.",
+        video:"https://youtu.be/5kDPCRqMqzw"
+      },
+      {
+        id:"pi-pogo2", name:"Pogo hopp fremover",
+        sets:"3×12m", load:"Kroppsvekt", weight:null,
+        note:"3 sett nå, 12 meter.",
+        desc:"Et sett mer og litt lengre enn uke 2. Oppretthold stiff ankler og kortest mulig kontakttid. Dette forbereder drop jumps i uke 6.",
+        video:"https://youtu.be/etLFCXAkHM4"
+      },
+      {
+        id:"pi-latreact", name:"Lateral reaktivhopp",
+        sets:"2×5 per side", load:"Liten hindring", weight:null,
+        note:"Ny: retningsskift-intro.",
+        desc:"Hopp sidelengs over en linje eller kjegle på ett bein. Land og spreng tilbake. Begynn forsiktig — dette er en ny bevegelse. Etterligner retningsskift i basketball.",
+        video:"https://youtu.be/w7Ixg8gXPyw"
       },
     ],
   },
@@ -609,13 +665,16 @@ const EXERCISES = {
 
 // ── HJELPEFUNKSJONER ──────────────────────────────────────────
 function getPhase(week, sessionId) {
-  // Styrke A og B: fase1 uke 1–2, fase2 uke 3+5, fase3 uke 6–7+
   if (sessionId === "styrke-a" || sessionId === "styrke-b") {
     if (week <= 2) return "fase1";
     if (week <= 5) return "fase2";
     return "fase3";
   }
-  // Alt annet: fase1
+  if (sessionId === "plyo-intro") {
+    if (week <= 1) return "fase1";   // uke 1: ankelhopp + myk landing
+    if (week <= 2) return "fase2";   // uke 2: + pogo
+    return "fase3";                   // uke 3+5: + reaktivhopp
+  }
   return "fase1";
 }
 
