@@ -52,14 +52,14 @@ const typeStyle = {
 
 const WEEKS = [
   { week: 1, label: "Teknikk I", location: "🏠 Hjemme", type: "intro1", desc: "Lær bevegelsene. 2 styrkeøkter. Lett ankel. Ingen plyo ennå." },
-  { week: 2, label: "Teknikk II", location: "🌊 Istria", type: "intro1", desc: "Samme øvelser, litt mer vekt. Bli komfortabel med tekniken." },
-  { week: 3, label: "Oppbygging I", location: "🌊 Istria", type: "intro2", desc: "Introduserer plyometri (lett). Ankel økes til 4x/uke." },
-  { week: 4, label: "Reiseuke", location: "🚗 På veien", type: "travel", desc: "Kun kroppsvekt. Hotellrom/uteområde. Vedlikehold." },
-  { week: 5, label: "Oppbygging II", location: "🏠 Hjemme", type: "intro2", desc: "Tilbake fra reise. Gjenstart med uke 3-nivå." },
-  { week: 6, label: "Toppbelastning I", location: "🏠 Hjemme", type: "full", desc: "3 styrkeøkter. Full plyo. Ankel daglig. Maks fokus." },
+  { week: 2, label: "Teknikk II", location: "🌊 Istria", type: "intro1", desc: "Istria — treningsrom tilgjengelig. Samme øvelser, litt mer vekt." },
+  { week: 3, label: "Oppbygging I", location: "🌊 Istria", type: "intro2", desc: "Istria — introduserer lett plyometri. Ankel økes til 4x/uke." },
+  { week: 4, label: "Reiseuke", location: "🚗 På veien", type: "travel", desc: "Ingen fasiliteter. Kun kroppsvekt på hotellrom/uteområde." },
+  { week: 5, label: "Oppbygging II", location: "🏠 Hjemme", type: "intro2", desc: "Hjemme igjen. Gjenstart på uke 3-nivå — ikke rush opp." },
+  { week: 6, label: "Toppbelastning I", location: "🏠 Hjemme", type: "full", desc: "3 styrkeøkter. Full plyo. Ankel daglig. Her gir vi alt." },
   { week: 7, label: "Toppbelastning II", location: "🏠 Hjemme", type: "full", desc: "Hardeste uke. Øk vekt fra uke 6. Push deg!" },
-  { week: 8, label: "Bro I", location: "🏀 Sesong", type: "bridge", desc: "Reduser volum 20%. Basketball inn igjen." },
-  { week: 9, label: "Bro II", location: "🏀 Sesong", type: "bridge", desc: "Basketball prioritert. Styrke vedlikehold." },
+  { week: 8, label: "Toppbelastning III", location: "🏠 Hjemme", type: "full", desc: "Siste tunge uke før bro. Hold trykket oppe." },
+  { week: 9, label: "Bro til sesong", location: "🏀 Sesongstart", type: "bridge", desc: "Reduser volum 20%. Basketball inn igjen. Kroppen skal være frisk." },
   { week: 10, label: "Retest", location: "📊 Trimmen", type: "retest", desc: "VALD ForceDecks — sammenlign med juni 2026." },
 ];
 
