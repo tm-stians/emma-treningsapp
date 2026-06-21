@@ -42,495 +42,580 @@ const typeStyle = {
   retest: { color: C.retest, bg: C.styrkeBg },
 };
 
+// ── 10-UKERS PERIODISERING — NYBEGYNNER-TILPASSET ──────────────────────────
+// Fase 1 (uke 1–2): Teknikk. 2 styrkeøkter/uke. 3–4 øvelser. Ankel 3x/uke. Ingen plyo.
+// Fase 2 (uke 3–4): Introduksjon. 2 styrkeøkter + 1 lett plyo. Ankel 4x/uke.
+// Fase 3 (uke 5–7): Toppbelastning. 3 styrkeøkter. Full plyo. Ankel daglig.
+// Uke 4: Reise — kroppsvekt
+// Fase 4 (uke 8–9): Bro til sesong
+// Uke 10: Retest
+
 const WEEKS = [
-  { week: 1, label: "Oppstart", location: "🏠 Hjemme", type: "full", desc: "Teknikk over vekt — bli kjent med bevegelsene" },
-  { week: 2, label: "Istria I", location: "🌊 Istria", type: "full", desc: "Øk belastning. Ankel daglig. Plyometri intro." },
-  { week: 3, label: "Istria II", location: "🌊 Istria", type: "full", desc: "Tyngre styrke. Øk drop jump-volum." },
-  { week: 4, label: "Reiseuke", location: "🚗 På veien", type: "travel", desc: "Kun kroppsvekt. Hotellrom/uteområde." },
-  { week: 5, label: "Gjenoppstart", location: "🏠 Hjemme", type: "full", desc: "Tilbake til vekter. Lett første uke." },
-  { week: 6, label: "Toppbelastning I", location: "🏠 Hjemme", type: "full", desc: "Hardeste styrkeuke. Maks isometrisk fokus." },
-  { week: 7, label: "Toppbelastning II", location: "🏠 Hjemme", type: "full", desc: "Høyest plyometrivolum. Reaktiv enkeltbens." },
-  { week: 8, label: "Bro I", location: "🏀 Sesong", type: "bridge", desc: "Reduser 10%. Introduser ballarbeid." },
+  { week: 1, label: "Teknikk I", location: "🏠 Hjemme", type: "intro1", desc: "Lær bevegelsene. 2 styrkeøkter. Lett ankel. Ingen plyo ennå." },
+  { week: 2, label: "Teknikk II", location: "🌊 Istria", type: "intro1", desc: "Samme øvelser, litt mer vekt. Bli komfortabel med tekniken." },
+  { week: 3, label: "Oppbygging I", location: "🌊 Istria", type: "intro2", desc: "Introduserer plyometri (lett). Ankel økes til 4x/uke." },
+  { week: 4, label: "Reiseuke", location: "🚗 På veien", type: "travel", desc: "Kun kroppsvekt. Hotellrom/uteområde. Vedlikehold." },
+  { week: 5, label: "Oppbygging II", location: "🏠 Hjemme", type: "intro2", desc: "Tilbake fra reise. Gjenstart med uke 3-nivå." },
+  { week: 6, label: "Toppbelastning I", location: "🏠 Hjemme", type: "full", desc: "3 styrkeøkter. Full plyo. Ankel daglig. Maks fokus." },
+  { week: 7, label: "Toppbelastning II", location: "🏠 Hjemme", type: "full", desc: "Hardeste uke. Øk vekt fra uke 6. Push deg!" },
+  { week: 8, label: "Bro I", location: "🏀 Sesong", type: "bridge", desc: "Reduser volum 20%. Basketball inn igjen." },
   { week: 9, label: "Bro II", location: "🏀 Sesong", type: "bridge", desc: "Basketball prioritert. Styrke vedlikehold." },
   { week: 10, label: "Retest", location: "📊 Trimmen", type: "retest", desc: "VALD ForceDecks — sammenlign med juni 2026." },
 ];
 
+// ── UKESSTRUKTUR ──────────────────────────────────────────────
+// intro1: 2 styrkeøkter (man/fre), ankel man/ons/fre — ingen plyo
+// intro2: 2 styrkeøkter (man/fre) + 1 plyo (ons), ankel man/ons/fre/lor
+// full:   3 styrkeøkter (man/ons/fre) + plyo (man/fre) + ankel daglig
+// travel, bridge, retest: som før
+
 const SESSION_MAP = {
-  full:   { 1: ["styrke-a","plyo","ankel"], 3: ["styrke-b","ankel"], 5: ["styrke-a","plyo","ankel"] },
-  travel: { 1: ["reise"], 3: ["reise"], 5: ["reise"] },
-  bridge: { 1: ["bro-styrke","ankel"], 3: ["bro-styrke"], 5: ["plyo","ankel"] },
+  intro1: {
+    1: ["styrke-a", "ankel-lett"],
+    3: ["ankel-lett"],
+    5: ["styrke-b", "ankel-lett"],
+  },
+  intro2: {
+    1: ["styrke-a", "ankel-lett"],
+    3: ["plyo-intro", "ankel-lett"],
+    5: ["styrke-b", "ankel-lett"],
+    6: ["ankel-lett"],
+  },
+  full: {
+    1: ["styrke-a", "plyo", "ankel"],
+    3: ["styrke-b", "ankel"],
+    5: ["styrke-a", "plyo", "ankel"],
+    6: ["ankel"],
+    7: ["ankel"],
+  },
+  travel: {
+    1: ["reise"], 3: ["reise"], 5: ["reise"],
+  },
+  bridge: {
+    1: ["bro-styrke", "ankel-lett"],
+    3: ["bro-styrke"],
+    5: ["plyo-intro", "ankel-lett"],
+  },
   retest: { 1: ["retest"] },
 };
 
 const SESSION_META = {
-  "styrke-a":  { name: "Styrke A",        type: "styrke"  },
-  "styrke-b":  { name: "Styrke B",        type: "styrke"  },
-  "plyo":      { name: "Plyometri",       type: "reaktiv" },
-  "ankel":     { name: "Ankelprotokoll",  type: "ankel"   },
-  "reise":     { name: "Kroppsvekt",      type: "travel"  },
-  "bro-styrke":{ name: "Styrke (lett)",   type: "bridge"  },
-  "retest":    { name: "VALD Retest",     type: "retest"  },
+  "styrke-a":    { name: "Styrke A",          type: "styrke"  },
+  "styrke-b":    { name: "Styrke B",          type: "styrke"  },
+  "plyo":        { name: "Plyometri",         type: "reaktiv" },
+  "plyo-intro":  { name: "Plyometri (intro)", type: "reaktiv" },
+  "ankel":       { name: "Ankelprotokoll",    type: "ankel"   },
+  "ankel-lett":  { name: "Ankel (lett)",      type: "ankel"   },
+  "reise":       { name: "Kroppsvekt",        type: "travel"  },
+  "bro-styrke":  { name: "Styrke (lett)",     type: "bridge"  },
+  "retest":      { name: "VALD Retest",       type: "retest"  },
 };
 
-// ── ØVELSESBIBLIOTEK med norske beskrivelser, norske videoer og vektanbefaling ──
+// ── ØVELSESBIBLIOTEK ──────────────────────────────────────────
 const EXERCISES = {
+
+  // ── STYRKE A ──────────────────────────────────────────────
   "styrke-a": {
+    // Fase 1 (uke 1–2): 4 øvelser, teknikk
     fase1: [
       {
         id:"goblet", name:"Goblet knebøy",
-        sets:"3×10", load:"12–16 kg", weight:"12–16 kg",
-        note:"Dyp posisjon, knær over tær",
-        desc:"Hold en kettlebell eller manuell inntil brystet. Stå med skulderbreddes avstand og senk deg ned til lårene er parallelle med gulvet. Hold ryggen rett og brystet oppe hele veien.",
+        sets:"3×8", load:"8–12 kg", weight:"8–12 kg",
+        note:"Teknikk-fokus. Ryggen rett, brystet oppe.",
+        desc:"Hold en kettlebell eller manuell inntil brystet. Stå skulderbredde og senk deg ned til lårene er parallelle. Fokus på rett rygg og at knærne følger tærne.",
         video:"https://youtu.be/9coUk68haz0"
       },
       {
         id:"rdl", name:"Romanian deadlift",
-        sets:"3×10", load:"20–30 kg", weight:"20–30 kg",
-        note:"3 sek eksentrisk ned",
-        desc:"Hold stang eller manualene foran låra og heng fremover fra hofta med lett bøy i knærne. Strekk rumpa bakover og kjenn dragingen i bakside lår. Stanga skal holdes nær kroppen hele veien.",
+        sets:"3×8", load:"15–20 kg", weight:"15–20 kg",
+        note:"3 sek ned. Hoften bakover, ikke ned.",
+        desc:"Hold stang eller manualene foran låra. Heng fremover fra hofta med lett bøy i knærne og kjenn strekkingen i bakside lår. Stanga nær kroppen hele veien ned og opp.",
         video:"https://youtu.be/tat438g2B90"
       },
       {
         id:"hipth", name:"Hip thrust",
-        sets:"3×12", load:"30–50 kg", weight:"30–50 kg",
-        note:"1 sek pause i topp",
-        desc:"Legg skuldrene mot en benk og plasser stang over hofta. Press hofta rett opp til kroppen er rett som en planke. Klem setemusklene hardt i topp og hold ett sekund.",
+        sets:"3×10", load:"20–30 kg", weight:"20–30 kg",
+        note:"Klem setemusklene hardt i topp.",
+        desc:"Legg skuldrene mot en benk med stang over hofta. Press hofta rett opp til kroppen er flat som et bord. Hold 1 sekund i topp og klem setemusklene aktivt.",
+        video:"https://youtu.be/xDmFkJxPzeM"
+      },
+      {
+        id:"calf-r", name:"Enkeltbens hælhev — høyre",
+        sets:"3×12", load:"Kroppsvekt", weight:null,
+        note:"3 sek ned, opp raskt. Høyre er svakere.",
+        desc:"Stå på høyre fot på kanten av en trappetrinn. Senk hælen sakte i 3 sekunder, deretter opp så raskt som mulig. Hold balansen lett mot veggen.",
+        video:"https://youtu.be/gwLzBJYoWlI"
+      },
+    ],
+    // Fase 2 (uke 3, 5): 5 øvelser, litt mer krevende
+    fase2: [
+      {
+        id:"goblet2", name:"Goblet knebøy",
+        sets:"3×10", load:"12–16 kg", weight:"12–16 kg",
+        note:"Dypere nå — jobb mot full dybde.",
+        desc:"Samme teknikk som uke 1–2, men mer vekt og dypere. Målet er at lårene går under parallell. Hold ryggen nøytral hele veien.",
+        video:"https://youtu.be/9coUk68haz0"
+      },
+      {
+        id:"rdl2", name:"Romanian deadlift",
+        sets:"3×10", load:"25–35 kg", weight:"25–35 kg",
+        note:"Hamstring skal brenne — det er riktig.",
+        desc:"Mer belastning enn uke 1–2. Stanga nær kroppen, hoften bakover. Kjenn tydelig strekk i bakside lår nederst i bevegelsen.",
+        video:"https://youtu.be/tat438g2B90"
+      },
+      {
+        id:"hipth2", name:"Hip thrust",
+        sets:"4×10", load:"40–55 kg", weight:"40–55 kg",
+        note:"Tyngre nå. Klem 2 sek i topp.",
+        desc:"Økt belastning og ett ekstra sett. Hold 2 sekunder i topp med aktiv klemming av setemusklene. Dette er en av de viktigste øvelsene for basketball.",
         video:"https://youtu.be/xDmFkJxPzeM"
       },
       {
         id:"stepup", name:"Step-up m/vekt — høyre først",
-        sets:"3×8 per bein", load:"8–12 kg per hånd", weight:"8–12 kg/hånd",
-        note:"Alltid start høyre (svak side)",
-        desc:"Hold manualene hengende langs siden. Sett høyre fot opp på benken og press deg opp ved hjelp av høyre bein alene. Kontroller nedgangen. Start alltid med høyre bein.",
+        sets:"3×8 per bein", load:"6–10 kg per hånd", weight:"6–10 kg/hånd",
+        note:"Start alltid høyre bein.",
+        desc:"Hold manualene langs siden. Sett høyre fot opp på benken og press deg opp kun med høyre bein. Ikke dytt fra med bakfoten. Kontroller nedgangen.",
         video:"https://youtu.be/5zJHHLsE8Ok"
       },
       {
-        id:"calf-r", name:"Enkeltbens hælhev — høyre",
-        sets:"3×15", load:"Kroppsvekt", weight:null,
-        note:"3 sek ned, rask opp",
-        desc:"Stå på høyre fot på kanten av en trappetrinn eller platå. Senk hælen sakte ned i 3 sekunder, deretter opp så raskt som mulig. Hold balansen med fingrene lett mot veggen.",
+        id:"calf-r2", name:"Enkeltbens hælhev m/vekt — høyre",
+        sets:"3×12", load:"5–8 kg i hånd", weight:"5–8 kg",
+        note:"Høyre: med vekt. Venstre: kroppsvekt.",
+        desc:"Hold en lett manuell i høyre hånd for ekstra motstand. Høyre ankel er 24% svakere — vi bruker mer belastning på denne siden for å utjevne.",
         video:"https://youtu.be/gwLzBJYoWlI"
       },
     ],
-    fase2: [
+    // Fase 3 (uke 6–7): 5 øvelser, fullt volum
+    fase3: [
       {
         id:"trapbar", name:"Trapbar markløft",
-        sets:"4×5", load:"40–60 kg (75–80% av maks)", weight:"40–60 kg",
-        note:"Prioritert — øk vekt ukentlig",
-        desc:"Stå inni trapbaren med føttene under hofta. Grip håndtakene, press gulvet ned og løft ved å strekke hofta og knærne samtidig. Hold ryggen nøytral og brystet fremover gjennom hele løftet.",
+        sets:"4×5", load:"40–55 kg (RPE 8)", weight:"40–55 kg",
+        note:"Tyngste øvelsen — prioriter teknikk.",
+        desc:"Stå inni trapbaren med føttene under hofta. Press gulvet ned og løft ved å strekke hofta og knærne samtidig. Ryggen nøytral og brystet fremover. Øk vekten litt hver uke.",
         video:"https://youtu.be/sqjgTMkHRyM"
       },
       {
-        id:"rdl2", name:"Romanian deadlift",
-        sets:"4×6", load:"30–45 kg", weight:"30–45 kg",
-        note:"Hamstring dominant",
-        desc:"Hold stang eller manualene foran låra og heng fremover fra hofta med lett bøy i knærne. Strekk rumpa bakover og kjenn dragingen i bakside lår. Stanga skal holdes nær kroppen hele veien.",
+        id:"rdl3", name:"Romanian deadlift",
+        sets:"4×6", load:"35–50 kg", weight:"35–50 kg",
+        note:"Tyngst du kan med god teknikk.",
+        desc:"Full hamstring-fokus med tyngre belastning. Stanga nær kroppen, hoften bakover. Ikke gå tyngre hvis ryggen runder.",
         video:"https://youtu.be/tat438g2B90"
+      },
+      {
+        id:"hipth3", name:"Hip thrust m/pause",
+        sets:"4×8", load:"55–70 kg", weight:"55–70 kg",
+        note:"2 sek pause i topp. Gluteus maks.",
+        desc:"Tyngst vi har gjort hittil. Hold 2 sekunder i topp med maks klemming. Dette er den øvelsen som mest direkte bygger setemusklene for basketball.",
+        video:"https://youtu.be/xDmFkJxPzeM"
       },
       {
         id:"imtp", name:"Isometrisk midthogg (IMTP)",
         sets:"3×3 × 5 sek", load:"Maks innsats", weight:null,
-        note:"Etterligner IMTP-testen direkte",
-        desc:"Still deg i markløft-posisjon med stangen mot knærne (fastmontert i stativ). Trekk stangen oppover med absolutt maks kraft i 5 sekunder — som om du prøver å rive den ut av gulvet. Jukser ikke, gi alt.",
+        note:"Trekk som om du vil rive stangen ut av jorda.",
+        desc:"Still stangen fast i et stativ i midthogg-posisjon (mot knærne). Trekk oppover med absolutt maks kraft i 5 sekunder. Dette etterligner VALD-testen og bygger direkte maks-styrke.",
         video:"https://youtu.be/quDsJFbsOwE"
       },
       {
-        id:"calf-r2", name:"Enkeltbens hælhev m/vekt — høyre",
-        sets:"4×12", load:"8–12 kg i hånd", weight:"8–12 kg",
-        note:"Høyre: tung. Venstre: lett",
-        desc:"Hold en manuell i høyre hånd for ekstra motstand. Stå på høyre fot på kanten av en trappetrinn. Senk hælen sakte ned, deretter opp så raskt som mulig. Høyre bein trener tungt for å utjevne asymmetrien.",
-        video:"https://youtu.be/gwLzBJYoWlI"
-      },
-      {
-        id:"calf-l", name:"Enkeltbens hælhev — venstre",
-        sets:"3×10", load:"2–5 kg", weight:"2–5 kg",
-        note:"Vedlikehold",
-        desc:"Hold en lett manuell i venstre hånd. Utfør hælhev på venstre fot med kontrollert tempo. Dette er vedlikehold — ikke øk vekten på denne siden.",
+        id:"calf-r3", name:"Enkeltbens hælhev m/vekt — høyre",
+        sets:"4×12", load:"8–12 kg", weight:"8–12 kg",
+        note:"Høyre tungt. Venstre vedlikehold (3×10, lett).",
+        desc:"Tyngste ankelbelastning i programmet. Høyre side er fortsatt prioritert. Gjør også 3×10 venstre med 2–5 kg etterpå som vedlikehold.",
         video:"https://youtu.be/gwLzBJYoWlI"
       },
     ],
   },
+
+  // ── STYRKE B ──────────────────────────────────────────────
   "styrke-b": {
     fase1: [
       {
-        id:"front", name:"Frontknebøy / splittknebøy",
-        sets:"3×8", load:"20–35 kg", weight:"20–35 kg",
-        note:"Gradvis øk dybde",
-        desc:"Hold stangen foran på skuldrene med albuene høyt. Senk deg ned med ryggen loddrett. Alternativt: splittknebøy med én fot fremme, begge kne bøyes til 90 grader.",
+        id:"splitt", name:"Splittknebøy",
+        sets:"3×8 per bein", load:"Kroppsvekt", weight:null,
+        note:"Start uten vekt — lær balansen først.",
+        desc:"Ta et langt skritt frem. Senk bakkneet mot gulvet til begge kne er 90 grader. Press opp med fremre bein. Ingen vekter de første ukene — fokus på balanse og posisjon.",
         video:"https://youtu.be/uYumuL_G_V0"
       },
       {
-        id:"nordic", name:"Nordic Hamstring curl",
-        sets:"3×5", load:"Kroppsvekt", weight:null,
-        note:"Kun eksentrisk fase",
-        desc:"Kneel med føttene festet under en benk eller holdt av en partner. Senk overkroppen mot gulvet så sakte du klarer — brems med hamstrings, ikke armene. Kun senkning denne fasen, skyv deg opp med hendene.",
-        video:"https://youtu.be/d8AAPcAzCnY"
-      },
-      {
-        id:"bench", name:"Benkpress / pushup-variasjon",
-        sets:"3×10", load:"30–40 kg", weight:"30–40 kg",
-        note:"Skulder-stabilitet",
-        desc:"Legg deg på benken med stang over brystet. Press stangen opp mens du holder skulderbladene sammentrukket og ryggen flat. Alternativt: push-ups med hender litt bredere enn skulderbredde.",
+        id:"bench1", name:"Pushup",
+        sets:"3×8", load:"Kroppsvekt", weight:null,
+        note:"Rett linje fra hæl til hode hele veien.",
+        desc:"Hender litt bredere enn skulderbredde. Senk brystet mot gulvet med kontroll og press opp. Kjernen er stram — ingen sagning i midten. Start på knærne hvis dette er for tungt.",
         video:"https://youtu.be/SCVCLChPQFY"
       },
       {
-        id:"plank", name:"Planke + sidesteg m/band",
-        sets:"3×20 sek + 15 rep", load:"Lett motstandsband", weight:null,
-        note:"Kjerneaktivering",
-        desc:"Hold plankepositon med rett linje fra hæl til hode i 20 sekunder. Deretter: stå med band rundt anklene og ta 15 steg til siden med kontrollerte hofter. Kjenn motstand i hofteabduktorene.",
+        id:"plank1", name:"Planke",
+        sets:"3×20 sek", load:"Kroppsvekt", weight:null,
+        note:"Rett linje — ikke la hoften synke.",
+        desc:"Hold plankeposisjon på underarmer og tær. Stram magen og setemusklene. Rett linje fra hæl til hode. 20 sekunder er nok i starten — øk gradvis.",
         video:"https://youtu.be/pSHjTRCQxIw"
       },
       {
-        id:"balance", name:"Balansestående — høyre bein",
-        sets:"3×30 sek", load:"Øyne lukket", weight:null,
-        note:"Propriosepsjon",
-        desc:"Stå på høyre bein med lett bøy i kneet. Lukk øynene for å utfordre balansen. Hold hoften stabil og unngå at den synker til siden. Dette trener ankelstabilitet og kroppssans.",
+        id:"balance1", name:"Balansestående — høyre bein",
+        sets:"3×20 sek", load:"Øyne åpne", weight:null,
+        note:"Start med øyne åpne. Lukk dem når det føles stabilt.",
+        desc:"Stå på høyre fot med lett bøy i kneet. Hold hoften stabil. Begynn med åpne øyne og lutt dem etterhvert. Trener ankelstabilitet og kroppssans.",
         video:"https://youtu.be/6lCMIBqnXmk"
       },
     ],
     fase2: [
       {
-        id:"bulg", name:"Bulgarsk splittknebøy",
-        sets:"4×8 per bein", load:"10–16 kg per hånd", weight:"10–16 kg/hånd",
-        note:"Start høyre bein alltid",
-        desc:"Legg bakfoten på en benk, fremfoten langt fremme. Hold manualene hengende langs siden. Senk bakkneet mot gulvet og press deg opp med fremre bein. Utfordrer balanse, hoftemobilitet og beinstyrke.",
+        id:"bulg1", name:"Bulgarsk splittknebøy",
+        sets:"3×8 per bein", load:"6–10 kg per hånd", weight:"6–10 kg/hånd",
+        note:"Bakfoten på benk. Start høyre.",
+        desc:"Legg bakfoten på en benk, fremfoten langt fremme. Hold lette manualene langs siden. Senk bakkneet mot gulvet. Mer krevende enn vanlig splittknebøy — ta det lett med vekten første gang.",
         video:"https://youtu.be/2C-uNgKwPLE"
       },
       {
-        id:"nordic2", name:"Nordic Hamstring curl",
-        sets:"3×6", load:"Kroppsvekt", weight:null,
-        note:"Full eksentrisk",
-        desc:"Kneel med føttene festet. Senk kroppen fremover så sakte som mulig og forsøk å bremse helt ned til gulvet. Skyv deg opp med hendene og gjenta. Primær skadeforebyggende øvelse for bakside lår.",
-        video:"https://youtu.be/d8AAPcAzCnY"
+        id:"bench2", name:"Benkpress / pushup m/vekt",
+        sets:"3×10", load:"25–35 kg", weight:"25–35 kg",
+        note:"Skulderblader sammentrukket.",
+        desc:"Legg deg på benken. Hold stangen over brystet med litt bredere enn skulderbredde grep. Press opp mens skulderbladene er trukket sammen og ryggen er flat.",
+        video:"https://youtu.be/SCVCLChPQFY"
       },
       {
-        id:"front2", name:"Fremre knebøy",
-        sets:"3×6", load:"25–40 kg", weight:"25–40 kg",
-        note:"Oppretthold teknikk",
-        desc:"Hold stangen foran på skuldrene med albuene pekende fremover og høyt. Senk deg ned med ryggen loddrett. Krevende øvelse som trener lår, kjerne og mobilitet simultant.",
-        video:"https://youtu.be/uYumuL_G_V0"
+        id:"plank2", name:"Planke + sidesteg m/band",
+        sets:"3×20 sek + 12 rep", load:"Lett motstandsband", weight:null,
+        note:"Kjernen stram under begge deler.",
+        desc:"Hold planke i 20 sekunder. Deretter: band rundt anklene, ta 12 steg sidelengs med kontrollerte hofter. Trener kjernen og hofteabduktorene.",
+        video:"https://youtu.be/pSHjTRCQxIw"
       },
       {
-        id:"hipth2", name:"Hip thrust m/pause",
-        sets:"3×8", load:"50–70 kg", weight:"50–70 kg",
-        note:"Gluteus maks aktivering",
-        desc:"Legg skuldrene mot en benk, stang over hofta. Press hofta rett opp og hold 2 sekunder i topp. Klem setemusklene hardest mulig i pauseposisjonen. Tyngre belastning enn fase 1.",
-        video:"https://youtu.be/xDmFkJxPzeM"
-      },
-      {
-        id:"latband", name:"Lateral ankelstabilitet m/band",
-        sets:"3×15", load:"Lett motstandsband", weight:null,
-        note:"Peroneus — høyre side",
-        desc:"Fest et motstandsband rundt ankelen. Stå på ett bein og press foten ut mot siden mot bankets motstand. Trener peroneus-musklene som stabiliserer ankelen ved landing og retningsskift.",
-        video:"https://youtu.be/PG-TvRNxATs"
-      },
-    ],
-  },
-  "ankel": {
-    fase1: [
-      {
-        id:"ank-r1", name:"Enkeltbens hælhev — høyre",
-        sets:"3×15", load:"Kroppsvekt", weight:null,
-        note:"3 sek ned, rask opp",
-        desc:"Stå på høyre fot på kanten av et trinn. Senk hælen sakte i 3 sekunder, deretter eksplosivt opp. Målet er å bygge kraft og toleranse i høyre ankel som er 24% svakere enn venstre.",
-        video:"https://youtu.be/gwLzBJYoWlI"
-      },
-      {
-        id:"ank-l1", name:"Enkeltbens hælhev — venstre",
-        sets:"3×10", load:"Kroppsvekt", weight:null,
-        note:"Vedlikehold, ikke øk",
-        desc:"Samme bevegelse som høyre, men lavere dose. Venstre ankel er sterkere — målet er å vedlikeholde, ikke øke, slik at høyre kan ta igjen.",
-        video:"https://youtu.be/gwLzBJYoWlI"
-      },
-      {
-        id:"dorsal", name:"Isometrisk dorsalfleksjon m/band",
-        sets:"3×30 sek", load:"Motstandsband", weight:null,
-        note:"Dorsal styrke + stabilitet",
-        desc:"Sitt på gulvet med bandet rundt tåballene. Press foten oppover mot bandet i 30 sekunder med jevnt press. Trener tibialis anterior — muskelen på forsiden av leggen som stabiliserer ankelen.",
-        video:"https://youtu.be/lLxGDvHg3EE"
-      },
-      {
-        id:"bal-r", name:"Balansestående — høyre",
-        sets:"3×30 sek", load:"Øyne lukket / ustabilt underlag", weight:null,
-        note:"Propriosepsjon",
-        desc:"Stå på høyre fot, lukk øynene. Prøv å holde hoften stabil og unngå vakle. Hvis tilgjengelig, bruk et balansebrett for ekstra utfordring. Trener ankelens stabilisatorer.",
+        id:"balance2", name:"Balansestående — høyre bein",
+        sets:"3×30 sek", load:"Øyne lukket", weight:null,
+        note:"Nå lukker vi øynene.",
+        desc:"Øyne lukket på høyre bein. Mye vanskeligere enn uke 1–2. Prøv å holde hoften stabil uten å synke til siden. Bruk en vegg nær deg de første gangene.",
         video:"https://youtu.be/6lCMIBqnXmk"
-      },
-    ],
-    fase2: [
-      {
-        id:"ank-r2", name:"Enkeltbens hælhev m/vekt — høyre",
-        sets:"4×12", load:"8–12 kg i hånd", weight:"8–12 kg",
-        note:"Høyre: tung. Venstre: lettest",
-        desc:"Hold en manuell i høyre hånd for ekstra motstand. Gjennomfør hælhev med 3 sek ned og eksplosivt opp. Høyre ankel skal nå jobbe med ekstern belastning for å øke kraftproduksjonen.",
-        video:"https://youtu.be/gwLzBJYoWlI"
-      },
-      {
-        id:"ank-l2", name:"Enkeltbens hælhev — venstre",
-        sets:"3×10", load:"2–5 kg", weight:"2–5 kg",
-        note:"Vedlikehold",
-        desc:"Lett belastning på venstre side for å vedlikeholde styrken. Ikke øk dosen — vi vil at høyre skal ta igjen venstre, ikke omvendt.",
-        video:"https://youtu.be/gwLzBJYoWlI"
-      },
-      {
-        id:"ank-hop", name:"Ankelhopp — høyre bein",
-        sets:"3×10", load:"Kroppsvekt", weight:null,
-        note:"Myk landing, reaktivt",
-        desc:"Hopp på høyre bein med korte, raske ankelhopp. Bøy minst mulig i kneet — all kraft fra ankelen. Myk og kontrollert landing. Bygger reaktiv ankelstyrke direkte.",
-        video:"https://youtu.be/Yd9VXHRe5Dw"
       },
       {
         id:"lat-ank", name:"Lateral ankelstabilitet m/band",
-        sets:"3×15", load:"Motstandsband", weight:null,
-        note:"Peroneus-aktivering",
-        desc:"Band rundt ankelen. Stå på ett bein og press foten lateralt mot bandets motstand. Disse musklene holder ankelen stabil under retningsskift i basketball.",
+        sets:"3×12", load:"Lett motstandsband", weight:null,
+        note:"Peroneus — viktig for retningsskift.",
+        desc:"Band rundt ankelen. Stå på ett bein og press foten ut mot siden mot bandets motstand. Disse musklene holder ankelen stabil ved landing og retningsskift i basketball.",
         video:"https://youtu.be/PG-TvRNxATs"
       },
     ],
     fase3: [
       {
-        id:"loaded", name:"Enkeltbens kalvhev — loaded drop",
-        sets:"4×10", load:"15–20 kg i hånd", weight:"15–20 kg",
-        note:"Eksentrisk belastning sentralt",
-        desc:"Hold 15–20 kg manuell i høyre hånd. Stå på høyre fot, fulle bevegelsesutslag fra strekt til senket hæl. Den tunge eksentriske belastningen bygger den spesifikke styrken som testes i VALD.",
+        id:"bulg2", name:"Bulgarsk splittknebøy",
+        sets:"4×8 per bein", load:"10–16 kg per hånd", weight:"10–16 kg/hånd",
+        note:"Tyngst hittil. Start høyre alltid.",
+        desc:"Mer vekt enn uke 3–5. Hold manualene langs siden. Fokus på at fremre kne ikke kollapser innover. Dette er en av de beste basketballspesifikke øvelsene.",
+        video:"https://youtu.be/2C-uNgKwPLE"
+      },
+      {
+        id:"nordic", name:"Nordic Hamstring curl",
+        sets:"3×4", load:"Kroppsvekt", weight:null,
+        note:"Kun eksentrisk — skyv opp med hendene.",
+        desc:"Kneel med føttene festet (partner eller under benk). Senk kroppen fremover så sakte du klarer. Brems med bakside lår — ikke armene. Skyv opp med hendene. Viktigste skadeforebyggende øvelse for bakside lår.",
+        video:"https://youtu.be/d8AAPcAzCnY"
+      },
+      {
+        id:"bench3", name:"Benkpress",
+        sets:"3×8", load:"30–40 kg", weight:"30–40 kg",
+        note:"Kontrollert ned, eksplosivt opp.",
+        desc:"Full benkpress med stang. Senk kontrollert til brystet og press eksplosivt opp. Skulderblader sammentrukket og ryggen flat mot benken.",
+        video:"https://youtu.be/SCVCLChPQFY"
+      },
+      {
+        id:"plank3", name:"Planke + sidesteg m/band",
+        sets:"3×30 sek + 15 rep", load:"Middels motstandsband", weight:null,
+        note:"Lenger planke og mer motstand nå.",
+        desc:"30 sekunder planke + 15 sidelengs steg med sterkere band. Hold hoftene stabile og unngå at de synker under planken.",
+        video:"https://youtu.be/pSHjTRCQxIw"
+      },
+      {
+        id:"balance3", name:"Balansestående — høyre bein",
+        sets:"3×30 sek", load:"Øyne lukket / ustabilt underlag", weight:null,
+        note:"Bruk balansebrett hvis tilgjengelig.",
+        desc:"Øyne lukket på høyre bein, gjerne på et ustabilt underlag (balansebrett, sammenrullet håndkle). Maksimal utfordring for ankelstabilitet.",
+        video:"https://youtu.be/6lCMIBqnXmk"
+      },
+    ],
+  },
+
+  // ── ANKEL LETT (uke 1–3, 5, 8–9) ──────────────────────────
+  "ankel-lett": {
+    fase1: [
+      {
+        id:"al-cr", name:"Enkeltbens hælhev — høyre",
+        sets:"3×12", load:"Kroppsvekt", weight:null,
+        note:"3 sek ned, opp raskt.",
+        desc:"Stå på høyre fot på kanten av et trinn. Senk hælen i 3 sekunder og opp raskt. Høyre er svakere — alltid høyre først og mer volum enn venstre.",
         video:"https://youtu.be/gwLzBJYoWlI"
       },
       {
-        id:"boxland", name:"Enkeltbens box jump landing",
-        sets:"3×5 per bein", load:"Lav boks (20–30 cm)", weight:null,
-        note:"Myk, stabil landing høyre",
-        desc:"Stå på boksen og hopp ned på ett bein. Land mykt med lett bøy i kneet og frys posisjonen i 2 sekunder. Fokus er å lande stabilt på høyre bein uten at kneet kollapser innover.",
-        video:"https://youtu.be/5kDPCRqMqzw"
+        id:"al-cl", name:"Enkeltbens hælhev — venstre",
+        sets:"2×10", load:"Kroppsvekt", weight:null,
+        note:"Vedlikehold — ikke øk.",
+        desc:"Samme bevegelse på venstre fot men lavere dose. Vi vil at høyre skal ta igjen venstre i løpet av programmet.",
+        video:"https://youtu.be/gwLzBJYoWlI"
       },
       {
-        id:"lathop", name:"Lateral hopp over linje — H=R",
-        sets:"3×8 per side", load:"Kroppsvekt", weight:null,
-        note:"Mål: samme RSI begge sider",
-        desc:"Hopp sidelengs over en linje på ett bein. Mål å ha samme høyde og reaktivitet på begge sider. Dette er den siste testen på om ankelasymmetrien er redusert.",
-        video:"https://youtu.be/w7Ixg8gXPyw"
+        id:"al-bal", name:"Balansestående — høyre",
+        sets:"3×20 sek", load:"Øyne åpne", weight:null,
+        note:"Stabil hofte — ikke la den synke.",
+        desc:"Stå på høyre fot med lett bøy i kneet. Start med åpne øyne. Hold hoften stabil. Trener propriosepsjon og ankelstabilitet.",
+        video:"https://youtu.be/6lCMIBqnXmk"
       },
     ],
   },
+
+  // ── ANKEL FULL (uke 6–7) ───────────────────────────────────
+  "ankel": {
+    fase1: [
+      {
+        id:"a-cr", name:"Enkeltbens hælhev m/vekt — høyre",
+        sets:"4×12", load:"8–12 kg i hånd", weight:"8–12 kg",
+        note:"Tung høyre. Venstre: 3×10 uten vekt.",
+        desc:"Hold en manuell i høyre hånd. Full bevegelsesutslag fra senket til strekt. Høyre ankel jobber nå med ekstern belastning for å utjevne asymmetrien fra 24% mot 12%.",
+        video:"https://youtu.be/gwLzBJYoWlI"
+      },
+      {
+        id:"a-hop", name:"Ankelhopp — høyre bein",
+        sets:"3×10", load:"Kroppsvekt", weight:null,
+        note:"Kort kontakt — reaktivt.",
+        desc:"Raske, stive ankelhopp på høyre bein. Minimal bøy i kne og hofte — all kraft fra ankelen. Myk landing og umiddelbart opp igjen.",
+        video:"https://youtu.be/Yd9VXHRe5Dw"
+      },
+      {
+        id:"a-lat", name:"Lateral ankelstabilitet m/band",
+        sets:"3×15", load:"Motstandsband", weight:null,
+        note:"Peroneus — holder ankelen stabil.",
+        desc:"Band rundt ankelen. Stå på ett bein og press foten lateralt mot bandets motstand. Disse musklene er kritiske for å unngå ankelskader i basketball.",
+        video:"https://youtu.be/PG-TvRNxATs"
+      },
+      {
+        id:"a-dorsal", name:"Isometrisk dorsalfleksjon m/band",
+        sets:"3×30 sek", load:"Motstandsband", weight:null,
+        note:"Forsiden av leggen — viktig for landing.",
+        desc:"Sitt med band rundt tåballene. Press foten oppover mot bandets motstand i 30 sekunder. Trener tibialis anterior — stabiliserer ankelen ved landing.",
+        video:"https://youtu.be/lLxGDvHg3EE"
+      },
+    ],
+  },
+
+  // ── PLYOMETRI INTRO (uke 3, 5, 8–9) ───────────────────────
+  "plyo-intro": {
+    fase1: [
+      {
+        id:"pi-ankbi", name:"Ankelhopp bilateral",
+        sets:"3×8", load:"Kroppsvekt", weight:null,
+        note:"«Varm potet» — kort kontakttid.",
+        desc:"Stå med føtter i hoftebredde og hopp raskt opp og ned med nesten ingen bøy i kne og hofte. Tenk at gulvet er varmt — minst mulig tid nede. Start med 8 repetisjoner.",
+        video:"https://youtu.be/Yd9VXHRe5Dw"
+      },
+      {
+        id:"pi-softland", name:"Myk landing fra boks",
+        sets:"3×5 per bein", load:"20 cm boks", weight:null,
+        note:"Frys stillingen 2 sek — kontroll.",
+        desc:"Stå på en lav boks og hopp ned på ett bein. Land mykt med lett bøy i kneet og hold stillingen i 2 sekunder uten å vakle. Lær kroppen å lande trygt på ett bein.",
+        video:"https://youtu.be/5kDPCRqMqzw"
+      },
+      {
+        id:"pi-pogo", name:"Pogo hopp fremover",
+        sets:"2×8m", load:"Kroppsvekt", weight:null,
+        note:"Stiff ankler, dekk 8 meter.",
+        desc:"Beveg deg fremover med raske, fjærende ankelhopp. Hold bena nesten strake. Anklene er fjærer — korttest mulig tid på bakken. Begynn forsiktig de første gangene.",
+        video:"https://youtu.be/etLFCXAkHM4"
+      },
+    ],
+  },
+
+  // ── PLYOMETRI FULL (uke 6–7) ───────────────────────────────
   "plyo": {
     fase1: [
       {
-        id:"ankbi", name:"Ankelhopp bilateral",
-        sets:"3×10", load:"Kroppsvekt", weight:null,
-        note:"«Varm potet» — kort kontakttid",
-        desc:"Stå med føttene i hoftebreddes avstand og hopp raskt opp og ned med nesten ingen bevegelse i knær og hofter. Kun ankler jobber. Tenk: gulvet er glødende, minst mulig kontakttid.",
+        id:"p-ankbi", name:"Ankelhopp bilateral",
+        sets:"3×12", load:"Kroppsvekt", weight:null,
+        note:"Raskere og flere reps enn intro-uker.",
+        desc:"Kort kontakttid, stive ankler. Nå 12 reps per sett. Samme prinsipp som uke 3–5 men mer volum og raskere tempo.",
         video:"https://youtu.be/Yd9VXHRe5Dw"
       },
       {
-        id:"ankr", name:"Enkeltbens ankelhopp — høyre",
-        sets:"3×8", load:"Kroppsvekt", weight:null,
-        note:"Etter bilateral mestring",
-        desc:"Samme som bilateral versjon men på ett bein. Start med høyre. Kort kontakt, stiv ankel. Utfordrende for balansen — bruk en vegg nærme deg om nødvendig de første gangene.",
-        video:"https://youtu.be/Yd9VXHRe5Dw"
-      },
-      {
-        id:"pogo", name:"Pogo hopp fremover",
-        sets:"3×10m", load:"Kroppsvekt", weight:null,
-        note:"Stiff ankler, høyt hoftedrag",
-        desc:"Beveg deg fremover med raske, stive ankelhopp. Hold bena nesten strake og trekk knærne litt opp. Landingen skal være fjærende og eksplosiv. Dekk 10 meter per sett.",
-        video:"https://youtu.be/etLFCXAkHM4"
-      },
-      {
-        id:"softland", name:"Myk enkeltbens landing fra boks",
-        sets:"3×5 per bein", load:"20–30 cm boks", weight:null,
-        note:"Kontrollert absorbsjon",
-        desc:"Stå på boksen og hopp ned på ett bein. Land med mykt kne og kontroller at du ikke vakler. Hold stillingen i 2 sekunder. Lær kroppen å absorbere krefter sikkert på ett bein.",
-        video:"https://youtu.be/5kDPCRqMqzw"
-      },
-    ],
-    fase2: [
-      {
-        id:"djbi", name:"Drop jump bilateral",
-        sets:"4×5", load:"30 cm boks", weight:null,
-        note:"Mål: kontakttid under 250ms",
-        desc:"Stå på kanten av boksen og fall ned — ikke hopp. Land på begge bein og spreng umiddelbart opp igjen. Minimum tid på bakken. Dette etterligner VALD drop jump-testen direkte.",
+        id:"p-djbi", name:"Drop jump bilateral",
+        sets:"3×5", load:"30 cm boks", weight:null,
+        note:"Fall ned — ikke hopp. Spreng opp umiddelbart.",
+        desc:"Stå på kanten av boksen og la deg falle ned. Land på begge bein og spreng øyeblikkelig opp igjen. Minst mulig tid på bakken. Dette etterligner VALD drop jump-testen.",
         video:"https://youtu.be/1CuFu0YYVMI"
       },
       {
-        id:"djr", name:"Drop jump — høyre bein",
+        id:"p-djr", name:"Drop jump — høyre bein",
         sets:"3×5", load:"20 cm boks", weight:null,
-        note:"Bygg RSI høyre side",
-        desc:"Drop jump på høyre bein fra lavere boks. Fokus er å minimere kontakttiden og maksimere høyden. Dette er den spesifikke øvelsen for å heve SL Hop RSI fra 5. persentil.",
+        note:"RSI høyre side — primærmålet.",
+        desc:"Drop jump på høyre bein fra lavere boks. Fokus på minimal kontakttid og maksimal høyde. Dette er den spesifikke øvelsen for å løfte SL Hop RSI fra 5. persentil.",
         video:"https://youtu.be/1CuFu0YYVMI"
       },
       {
-        id:"djl", name:"Drop jump — venstre bein",
-        sets:"3×5", load:"20 cm boks", weight:null,
-        note:"Vedlikehold",
-        desc:"Samme som høyre, men vedlikeholdsvolum. Gjør nøyaktig samme bevegelse slik at du kan sammenligne kontakttid og høyde mellom beina.",
-        video:"https://youtu.be/1CuFu0YYVMI"
-      },
-      {
-        id:"latreact", name:"Lateral enkeltbens reaktivhopp",
-        sets:"3×6 per side", load:"Liten hindring (kjegle/streke)", weight:null,
-        note:"Retningsskift-overføring",
-        desc:"Hopp sidelengs over en lav hindring på ett bein. Land og spreng umiddelbart tilbake. Dette etterligner retningsskiftene i basketball og trener reaktiv lateralbevegelse.",
+        id:"p-latreact", name:"Lateral reaktivhopp ett bein",
+        sets:"3×5 per side", load:"Liten hindring", weight:null,
+        note:"Retningsskift — basketballspesifikt.",
+        desc:"Hopp sidelengs over en kjegle eller linje på ett bein. Land og spreng umiddelbart tilbake. Etterligner retningsskiftene i basketball og trener reaktiv lateralbevegelse.",
         video:"https://youtu.be/w7Ixg8gXPyw"
       },
       {
-        id:"bound", name:"Flygende trinn (bounding)",
-        sets:"3×20m", load:"Kroppsvekt", weight:null,
-        note:"Maks horisontal impuls",
-        desc:"Løp fremover med overdrevne hopp fra ett bein til det andre — som en overdrevet hoppende løping. Fokus er å henge i luften så lenge som mulig per steg. Utvikler eksplosiv beinstyrke og koordinasjon.",
-        video:"https://youtu.be/bN5fvkqFSR0"
+        id:"p-pogo", name:"Pogo hopp fremover",
+        sets:"3×15m", load:"Kroppsvekt", weight:null,
+        note:"Maks fart og stiff ankler.",
+        desc:"Fjærende ankelhopp fremover, 15 meter per sett. Nå med mer fart og lengde enn intro. Hold ankler stive og bena nesten strake.",
+        video:"https://youtu.be/etLFCXAkHM4"
       },
     ],
   },
+
+  // ── REISE (uke 4) ──────────────────────────────────────────
   "reise": {
     fase1: [
       {
         id:"re-bsq", name:"Bulgarsk splittknebøy",
         sets:"3×10 per bein", load:"Kroppsvekt", weight:null,
-        note:"Stol / seng som støtte",
-        desc:"Legg bakfoten på stolen eller sengen. Senk bakkneet mot gulvet og press opp med fremre bein. Ingen vekter nødvendig — kroppsvekt på ett bein er utfordrende nok.",
+        note:"Stol eller seng som støtte for bakfoten.",
+        desc:"Legg bakfoten på stolen eller sengen. Senk bakkneet mot gulvet og press opp med fremre bein. Ingen vekter — kroppsvekt på ett bein er mer enn nok.",
         video:"https://youtu.be/2C-uNgKwPLE"
       },
       {
         id:"re-cr", name:"Enkeltbens hælhev — høyre",
         sets:"3×15", load:"Kroppsvekt", weight:null,
-        note:"Trapp eller fortauskant",
-        desc:"Bruk en trapp, fortauskant eller en tykk bok som plattform. Stå på høyre fot, senk hælen sakte og opp eksplosivt. Ingen utstyr nødvendig.",
+        note:"Trapp, fortauskant eller tykk bok.",
+        desc:"Bruk hva du finner — trapp, bordkant, en bok. Stå på høyre fot og gjennomfør hælhev med fullt bevegelsesspenn. Ankeltreningen stopper ikke på reise.",
         video:"https://youtu.be/gwLzBJYoWlI"
       },
       {
         id:"re-cl", name:"Enkeltbens hælhev — venstre",
-        sets:"3×10", load:"Kroppsvekt", weight:null,
-        note:"Vedlikehold",
-        desc:"Samme bevegelse på venstre fot med lavere dose. Vedlikehold av venstre ankel mens vi er på reise.",
+        sets:"2×10", load:"Kroppsvekt", weight:null,
+        note:"Vedlikehold.",
+        desc:"Lavere dose på venstre side. Vedlikehold under reiseuka.",
         video:"https://youtu.be/gwLzBJYoWlI"
       },
       {
         id:"re-glute", name:"Enkeltbens glute bridge",
         sets:"3×12 per bein", load:"Kroppsvekt", weight:null,
-        note:"1 sek pause i topp",
-        desc:"Legg deg på ryggen med én fot flat i gulvet, den andre i luften. Press hofta opp med ett bein og hold 1 sekund i topp. Trener setemusklene uten noe utstyr.",
+        note:"1 sek pause i topp.",
+        desc:"Legg deg på ryggen med én fot flat i gulvet. Press hofta opp på ett bein og hold 1 sekund i topp. Trener setemusklene uten utstyr — gjøres på hotellrommet.",
         video:"https://youtu.be/wPM8icPu6H8"
       },
       {
-        id:"re-ank", name:"Ankelhopp",
+        id:"re-ank", name:"Ankelhopp bilateral",
         sets:"3×10", load:"Kroppsvekt", weight:null,
-        note:"Utendørs / på stedet",
-        desc:"Gjøres utendørs på flatt underlag. Raske, lave hopp der kun anklene jobber. Kortest mulig kontakt med bakken. Perfekt for parkeringsplass, strand eller uteområde.",
+        note:"Utendørs på flatt underlag.",
+        desc:"Raske ankelhopp på begge bein. Gjøres utendørs — parkeringsplass, strand, fortau. Vedlikeholder reaktiviteten under reiseuka.",
         video:"https://youtu.be/Yd9VXHRe5Dw"
       },
       {
         id:"re-nord", name:"Nordic curl m/partner",
-        sets:"3×5", load:"Kroppsvekt", weight:null,
-        note:"Partner holder føttene, eller fest under seng",
-        desc:"Kneel på gulvet. Be noen holde ankelen din, eller fest dem under sengen/sofaen. Senk overkroppen fremover så sakte som mulig og brems med bakside lår. Skyv deg opp med hendene for å komme tilbake.",
+        sets:"3×4", load:"Kroppsvekt", weight:null,
+        note:"Partner holder, eller fest under seng.",
+        desc:"Be noen holde ankelen din, eller fest under sengen. Senk overkroppen fremover så sakte som mulig. Skyv opp med hendene. Viktig skadeforebygging — gjøres selv på reise.",
         video:"https://youtu.be/d8AAPcAzCnY"
       },
       {
         id:"re-bal", name:"Balansestående høyre",
         sets:"3×30 sek", load:"Øyne lukket", weight:null,
-        note:"Hotellrom — ingen utstyr",
-        desc:"Stå på høyre fot med øynene lukket. Hold hoften stabil og unngå å vakle. Gjøres overalt uten utstyr — ideell for å opprettholde ankelstabilitet under reiseuka.",
+        note:"Hotellrommet — ingen utstyr.",
+        desc:"Stå på høyre fot med øyne lukket i 30 sekunder. Gjøres overalt uten utstyr. Opprettholder ankelstabilitet under reiseuka.",
         video:"https://youtu.be/6lCMIBqnXmk"
       },
     ],
   },
+
+  // ── BRO STYRKE (uke 8–9) ──────────────────────────────────
   "bro-styrke": {
     fase1: [
       {
-        id:"bro-sq", name:"Knebøy",
-        sets:"3×5", load:"70% av uke 7-vekt", weight:"ca. 40–50 kg",
-        note:"Vedlikehold — ikke øk",
-        desc:"Standard knebøy med redusert vekt. Målet er å vedlikeholde nervebanene og styrken, ikke bygge mer. Føttene skulderbredde, senk til parallell og press opp.",
-        video:"https://youtu.be/MxsFDhcyFyE"
+        id:"bro-sq", name:"Knebøy / goblet knebøy",
+        sets:"3×6", load:"70% av uke 7-vekt", weight:"ca. 35–45 kg",
+        note:"Vedlikehold — ikke øk vekten.",
+        desc:"Redusert volum og intensitet. Målet er å vedlikeholde nervesystemet og styrken inn mot basketsesongen, ikke å bygge mer.",
+        video:"https://youtu.be/9coUk68haz0"
       },
       {
         id:"bro-rdl", name:"Romanian deadlift",
-        sets:"3×6", load:"Moderat — ca. 25–35 kg", weight:"25–35 kg",
-        note:"Teknikk-fokus",
-        desc:"Redusert vekt fra toppbelastningen. Fokus på perfekt teknikk og kontroll. Hold rørselen ren — dette er broperioden inn mot basketsesongen.",
+        sets:"3×6", load:"70% av uke 7-vekt", weight:"ca. 25–35 kg",
+        note:"Teknikk-fokus.",
+        desc:"Lett og kontrollert. Gode repetisjoner er viktigere enn tung vekt i broperioden.",
         video:"https://youtu.be/tat438g2B90"
       },
       {
         id:"bro-calf", name:"Enkeltbens hælhev — høyre",
-        sets:"3×12", load:"5–8 kg i hånd", weight:"5–8 kg",
-        note:"Fortsett ankelprogresjon",
-        desc:"Oppretthold ankeltreningen inn mot sesongen. Lett vekt men samme bevisste teknikk. Ikke mist fremgangen fra de foregående ukene.",
+        sets:"3×12", load:"5–8 kg", weight:"5–8 kg",
+        note:"Fortsett ankelprogresjon.",
+        desc:"Oppretthold ankeltreningen inn mot sesongen. Lett vekt men samme bevisste teknikk. Ikke mist fremgangen fra sommeren.",
         video:"https://youtu.be/gwLzBJYoWlI"
       },
       {
-        id:"bro-nordic", name:"Nordic Hamstring curl",
-        sets:"2×5", load:"Kroppsvekt", weight:null,
-        note:"Vedlikehold",
-        desc:"Redusert volum for å vedlikeholde hamstrings-styrken. Senk kontrollert, skyv opp med hendene. To sett er nok i broperioden.",
-        video:"https://youtu.be/d8AAPcAzCnY"
-      },
-      {
         id:"bro-drop", name:"Drop jump bilateral",
-        sets:"2×5", load:"30 cm boks", weight:null,
-        note:"Skarp og rask — ikke sliten",
-        desc:"Gjør disse frisk og uthvilt — aldri etter tung styrke. Målet er å opprettholde reaktiviteten. Rask kontakttid og eksplosivt opp.",
+        sets:"2×4", load:"30 cm boks", weight:null,
+        note:"Frisk og uthvilt — ikke etter tung styrke.",
+        desc:"Gjøres separat fra styrkeøkten eller på starten. Vedlikeholder reaktiviteten. Rask kontakttid og eksplosivt opp.",
         video:"https://youtu.be/1CuFu0YYVMI"
       },
     ],
   },
+
+  // ── RETEST (uke 10) ───────────────────────────────────────
   "retest": {
     fase1: [
       {
         id:"rt-cmj", name:"Countermovement Jump (CMJ)",
         sets:"3 forsøk", load:"Maks", weight:null,
-        note:"Mål: 38+ cm (fra 35,2)",
-        desc:"Stå på platene, armene langs siden. Bøy raskt ned og spreng opp med armsvingen. Samme protokoll som i juni for sammenlignbare resultater. Mål: over 38 cm.",
+        note:"Mål: 38+ cm (fra 35,2 cm)",
+        desc:"Stå på platene, armene langs siden. Bøy raskt ned og spreng opp med armsvingen. Samme protokoll som i juni for sammenlignbare resultater.",
         video:"https://youtu.be/lk_Hm6ByXBA"
       },
       {
         id:"rt-abal", name:"Abalakov Jump",
         sets:"3 forsøk", load:"Maks", weight:null,
-        note:"Mål: 41+ cm (fra 38,4)",
-        desc:"CMJ med armsvingen. Bruk armene aktivt for å maksimere høyden. Mål: over 41 cm. Denne testen viser total eksplosivitet med arm-bidrag.",
+        note:"Mål: 41+ cm (fra 38,4 cm)",
+        desc:"CMJ med full armsvingen. Bruk armene aktivt for å maksimere høyden.",
         video:"https://youtu.be/lk_Hm6ByXBA"
       },
       {
         id:"rt-slj", name:"Single Leg Jump",
         sets:"3 forsøk per bein", load:"Maks", weight:null,
         note:"Mål: asymmetri under 5%",
-        desc:"Hopp på ett bein. Test begge sider og sammenlign. Asymmetrien var 0,6% i juni — mål er å beholde dette eller bedre.",
+        desc:"Hopp på ett bein. Test begge sider. Asymmetrien var 0,6% i juni — beholde eller forbedre.",
         video:"https://youtu.be/lk_Hm6ByXBA"
       },
       {
         id:"rt-dj", name:"Drop Jump",
         sets:"3 forsøk", load:"Maks reaktivitet", weight:null,
-        note:"Mål: 38+ cm (fra 35,5)",
-        desc:"Fall ned fra boksen og spreng umiddelbart opp. Minst mulig kontakttid. Var 96. persentil i juni — mål er å opprettholde eller forbedre.",
+        note:"Mål: 38+ cm (fra 35,5 cm)",
+        desc:"Fall fra boksen og spreng opp. Minst mulig kontakttid. Var 96. persentil — opprettholde eller forbedre.",
         video:"https://youtu.be/1CuFu0YYVMI"
       },
       {
         id:"rt-imtp", name:"Isometric Mid-Thigh Pull",
         sets:"3 forsøk × 5 sek", load:"Absolutt maks", weight:null,
-        note:"Mål: 26+ N/kg (fra 22,26)",
-        desc:"Trekk stangen oppover med maks kraft i 5 sekunder. Dette er det primære målet for sommerprogrammet. Var 24. persentil i juni — mål er 50. persentil.",
+        note:"Mål: 26+ N/kg (fra 22,26 N/kg) ← PRIMÆRMÅL",
+        desc:"Trekk stangen oppover med maks kraft i 5 sekunder. Dette er det primære målet for sommerprogrammet. Var 24. persentil — mål er 50. persentil.",
         video:"https://youtu.be/quDsJFbsOwE"
       },
       {
         id:"rt-ank", name:"Ankle Plantar Flexion",
         sets:"3 forsøk per bein", load:"Maks", weight:null,
-        note:"Mål: asymmetri under 12% (fra 24%)",
-        desc:"Test begge ankler separat. Asymmetrien var 24% i juni og er det viktigste forbedringspunktet. Mål er under 12% — dvs. at høyre og venstre er mye nærmere hverandre.",
+        note:"Mål: asymmetri under 12% (fra 24%) ← PRIMÆRMÅL",
+        desc:"Test begge ankler. Asymmetrien var 24% i juni. Etter 10 uker med fokusert ankeltrening bør høyre ha tatt igjen venstre.",
         video:"https://youtu.be/gwLzBJYoWlI"
       },
       {
         id:"rt-rsi", name:"Single Leg Hop RSI",
         sets:"3 forsøk per bein", load:"Maks reaktivitet", weight:null,
-        note:"Mål: RSI over 0,60 (fra 0,47/0,48)",
-        desc:"Hopp kontinuerlig på ett bein og mål forholdet mellom flygetid og kontakttid. Var 5. persentil i juni. Etter 10 uker med drop jumps og ankeltrening bør dette ha økt betydelig.",
+        note:"Mål: RSI over 0,60 (fra 0,47/0,48) ← PRIMÆRMÅL",
+        desc:"Kontinuerlige hopp på ett bein. Forholdet flygetid/kontakttid. Var 5. persentil — etter plyometri og ankeltrening bør dette ha økt markant.",
         video:"https://youtu.be/Yd9VXHRe5Dw"
       },
     ],
   },
 };
 
+// ── HJELPEFUNKSJONER ──────────────────────────────────────────
 function getPhase(week, sessionId) {
-  if (sessionId === "ankel") return week <= 2 ? "fase1" : week <= 6 ? "fase2" : "fase3";
-  if (sessionId === "plyo") return (week <= 3 || week === 5) ? "fase1" : "fase2";
-  if (sessionId === "styrke-a" || sessionId === "styrke-b") return (week <= 2 || week === 5) ? "fase1" : "fase2";
+  // Styrke A og B: fase1 uke 1–2, fase2 uke 3+5, fase3 uke 6–7+
+  if (sessionId === "styrke-a" || sessionId === "styrke-b") {
+    if (week <= 2) return "fase1";
+    if (week <= 5) return "fase2";
+    return "fase3";
+  }
+  // Alt annet: fase1
   return "fase1";
 }
 
@@ -538,11 +623,14 @@ function getWeekColor(type) {
   if (type === "travel") return C.travel;
   if (type === "bridge") return C.bridge;
   if (type === "retest") return C.retest;
+  if (type === "intro1") return "#3B82F6"; // lysere blå for nybegynner
+  if (type === "intro2") return "#6366F1"; // indigo for oppbygging
   return C.styrke;
 }
 
 const DAY_NAMES = ["","Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag","Søndag"];
 
+// ── EXERCISE CARD ─────────────────────────────────────────────
 function ExerciseCard({ ex, done, onToggle }) {
   const [open, setOpen] = useState(false);
   return (
@@ -566,7 +654,7 @@ function ExerciseCard({ ex, done, onToggle }) {
           <div style={{ fontSize: 14, fontWeight: 600, color: done ? C.muted : C.text, textDecoration: done ? "line-through" : "none", lineHeight: 1.3 }}>
             {ex.name}
           </div>
-          <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 2, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 6, alignItems: "center", marginTop: 2, flexWrap: "wrap" }}>
             <span style={{ fontSize: 12, color: C.styrke, fontWeight: 700 }}>{ex.sets}</span>
             {ex.weight && (
               <span style={{ fontSize: 11, background: `${C.travel}20`, color: C.travel, padding: "1px 7px", borderRadius: 99, fontWeight: 600 }}>
@@ -600,6 +688,7 @@ function ExerciseCard({ ex, done, onToggle }) {
   );
 }
 
+// ── SESSION BLOCK ─────────────────────────────────────────────
 function SessionBlock({ sessionId, weekNum, completions, onToggle }) {
   const meta = SESSION_META[sessionId];
   const phase = getPhase(weekNum, sessionId);
@@ -614,9 +703,11 @@ function SessionBlock({ sessionId, weekNum, completions, onToggle }) {
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: ts.color, flexShrink: 0 }} />
           <span style={{ fontSize: 15, fontWeight: 700, color: ts.color }}>{meta.name}</span>
-          <span style={{ background: `${ts.color}20`, color: ts.color, fontSize: 10, fontWeight: 700, padding: "2px 7px", borderRadius: 99 }}>
-            {phase.replace("fase", "Fase ")}
-          </span>
+          {(sessionId === "styrke-a" || sessionId === "styrke-b") && (
+            <span style={{ background: `${ts.color}20`, color: ts.color, fontSize: 10, fontWeight: 700, padding: "2px 7px", borderRadius: 99 }}>
+              {phase.replace("fase", "Fase ")}
+            </span>
+          )}
         </div>
         <div style={{ fontSize: 12, color: allDone ? C.done : C.muted, fontWeight: 600 }}>
           {doneCount}/{exList.length}
@@ -633,6 +724,7 @@ function SessionBlock({ sessionId, weekNum, completions, onToggle }) {
   );
 }
 
+// ── MAIN APP ──────────────────────────────────────────────────
 export default function App() {
   const [authed, setAuthed] = useState(() => sessionStorage.getItem("emma_auth") === "ok");
   const [pin, setPin] = useState("");
@@ -698,6 +790,7 @@ export default function App() {
     return { total, done, pct: total > 0 ? Math.round((done / total) * 100) : 0 };
   };
 
+  // ── PIN SCREEN ──
   if (!authed) return (
     <div style={{ background: C.bg, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
       <div style={{ background: C.card, border: `1px solid ${pinError ? "#ef4444" : C.border}`, borderRadius: 24, padding: 36, maxWidth: 320, width: "100%", textAlign: "center", transition: "border-color 0.2s" }}>
@@ -732,6 +825,7 @@ export default function App() {
     </div>
   );
 
+  // ── MAIN ──
   const weekData = WEEKS.find(w => w.week === activeWeek);
   const weekType = weekData?.type || "full";
   const weekColor = getWeekColor(weekType);
@@ -739,8 +833,16 @@ export default function App() {
   const todaySessions = smap[dayOfWeek] || [];
   const prog = getWeekProgress(activeWeek);
 
+  const phaseLabel = weekType === "intro1" ? "🌱 Teknikkfase" :
+                     weekType === "intro2" ? "📈 Oppbygging" :
+                     weekType === "full" ? "💪 Toppbelastning" :
+                     weekType === "travel" ? "🚗 Reise" :
+                     weekType === "bridge" ? "🏀 Bro til sesong" : "📊 Retest";
+
   return (
     <div style={{ background: C.bg, minHeight: "100vh", fontFamily: "'Inter','Helvetica Neue',sans-serif", color: C.text, maxWidth: 480, margin: "0 auto" }}>
+
+      {/* HEADER */}
       <div style={{ background: C.card, borderBottom: `1px solid ${C.border}`, padding: "14px 14px 0", position: "sticky", top: 0, zIndex: 100 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
           <div>
@@ -752,6 +854,8 @@ export default function App() {
             Lås
           </button>
         </div>
+
+        {/* Week pills */}
         <div style={{ display: "flex", overflowX: "auto", gap: 5, paddingBottom: 10, scrollbarWidth: "none" }}>
           {WEEKS.map(w => {
             const p = getWeekProgress(w.week);
@@ -771,6 +875,8 @@ export default function App() {
             );
           })}
         </div>
+
+        {/* Tabs */}
         <div style={{ display: "flex", borderTop: `1px solid ${C.border}`, marginTop: -1 }}>
           {[["today","I dag"],["week","Uke"],["overview","Fremgang"]].map(([v,label]) => (
             <button key={v} onClick={() => setView(v)} style={{
@@ -785,10 +891,14 @@ export default function App() {
       </div>
 
       <div style={{ padding: 14 }}>
+
+        {/* Week card */}
         <div style={{ background: `${weekColor}10`, border: `1px solid ${weekColor}30`, borderRadius: 14, padding: "12px 14px", marginBottom: 14 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
-              <div style={{ fontSize: 10, fontWeight: 700, color: weekColor, textTransform: "uppercase", letterSpacing: "0.1em" }}>{weekData?.location}</div>
+              <div style={{ fontSize: 10, fontWeight: 700, color: weekColor, textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                {weekData?.location} · {phaseLabel}
+              </div>
               <div style={{ fontSize: 16, fontWeight: 800, marginTop: 2 }}>Uke {activeWeek} — {weekData?.label}</div>
               <div style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>{weekData?.desc}</div>
             </div>
@@ -802,12 +912,13 @@ export default function App() {
           </div>
         </div>
 
+        {/* TODAY */}
         {view === "today" && (
           todaySessions.length === 0 ? (
             <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: 28, textAlign: "center" }}>
               <div style={{ fontSize: 36, marginBottom: 8 }}>😴</div>
               <div style={{ fontSize: 16, fontWeight: 700 }}>Hviledag!</div>
-              <div style={{ fontSize: 13, color: C.muted, marginTop: 4 }}>Aktiv hvile er lov — sykkel, svømming, gåtur.</div>
+              <div style={{ fontSize: 13, color: C.muted, marginTop: 4 }}>Aktiv hvile er lov — gåtur, svømming, sykling.</div>
             </div>
           ) : (
             todaySessions.map(sid => (
@@ -816,6 +927,7 @@ export default function App() {
           )
         )}
 
+        {/* WEEK */}
         {view === "week" && (
           [1,2,3,4,5,6,7].map(day => {
             const daySessions = smap[day] || [];
@@ -839,9 +951,24 @@ export default function App() {
           })
         )}
 
+        {/* OVERVIEW */}
         {view === "overview" && (
           <div>
             <div style={{ fontSize: 11, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 10 }}>10 uker</div>
+
+            {/* Phase legend */}
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
+              {[
+                { label: "🌱 Teknikk", color: "#3B82F6" },
+                { label: "📈 Oppbygging", color: "#6366F1" },
+                { label: "💪 Toppbelastning", color: C.styrke },
+                { label: "🚗 Reise", color: C.travel },
+                { label: "🏀 Bro", color: C.bridge },
+              ].map(p => (
+                <span key={p.label} style={{ fontSize: 10, background: `${p.color}20`, color: p.color, padding: "3px 8px", borderRadius: 99, fontWeight: 600 }}>{p.label}</span>
+              ))}
+            </div>
+
             {WEEKS.map(w => {
               const p = getWeekProgress(w.week);
               const wc = getWeekColor(w.type);
@@ -861,13 +988,14 @@ export default function App() {
                 </button>
               );
             })}
+
             <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, padding: 14, marginTop: 8 }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 10 }}>Målsettinger retest</div>
               {[
                 { l:"CMJ", fra:"35,2 cm", mål:"38+ cm", c:C.styrke },
-                { l:"IMTP", fra:"22,26 N/kg", mål:"26+ N/kg", c:C.styrke },
-                { l:"Ankel-asymmetri", fra:"24%", mål:"<12%", c:C.ankel },
-                { l:"SL Hop RSI", fra:"0,47", mål:"0,60+", c:C.reaktiv },
+                { l:"IMTP ★", fra:"22,26 N/kg", mål:"26+ N/kg", c:"#F87171" },
+                { l:"Ankel-asymmetri ★", fra:"24%", mål:"<12%", c:C.ankel },
+                { l:"SL Hop RSI ★", fra:"0,47", mål:"0,60+", c:C.reaktiv },
                 { l:"Drop Jump", fra:"35,5 cm", mål:"38+ cm", c:C.reaktiv },
               ].map((t,i) => (
                 <div key={i} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"8px 0", borderBottom:`1px solid ${C.border}` }}>
@@ -879,6 +1007,7 @@ export default function App() {
                   </div>
                 </div>
               ))}
+              <div style={{ fontSize: 10, color: C.muted, marginTop: 8 }}>★ = primærmål for sommerprogrammet</div>
             </div>
           </div>
         )}
