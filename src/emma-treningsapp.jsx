@@ -121,13 +121,23 @@ const EXERCISES = {
       {
         id:"goblet", name:"Goblet knebøy",
         sets:"3×8", load:"8–12 kg", weight:"8–12 kg",
+        group:"1A", supersetNote:"Supersett med 1B — gjør 1A, hvil 60 sek, gjør 1B, hvil 60 sek, gjenta",
         note:"Teknikk-fokus. Ryggen rett, brystet oppe.",
         desc:"Hold en kettlebell eller manuell inntil brystet. Stå skulderbredde og senk deg ned til lårene er parallelle. Fokus på rett rygg og at knærne følger tærne.",
         video:"https://youtu.be/9coUk68haz0"
       },
       {
+        id:"calf-r", name:"Enkeltbens hælhev — høyre",
+        sets:"3×12", load:"Kroppsvekt", weight:null,
+        group:"1B", supersetNote:"Supersett med 1A",
+        note:"3 sek ned, opp raskt. Høyre er svakere.",
+        desc:"Stå på høyre fot på kanten av en trappetrinn. Senk hælen sakte i 3 sekunder, deretter opp så raskt som mulig. Hold balansen lett mot veggen.",
+        video:"https://youtu.be/gwLzBJYoWlI"
+      },
+      {
         id:"rdl", name:"Romanian deadlift",
         sets:"3×8", load:"15–20 kg", weight:"15–20 kg",
+        group:"2A", supersetNote:"Supersett med 2B — gjør 2A, hvil 60 sek, gjør 2B, hvil 60 sek, gjenta",
         note:"3 sek ned. Hoften bakover, ikke ned.",
         desc:"Hold stang eller manualene foran låra. Heng fremover fra hofta med lett bøy i knærne og kjenn strekkingen i bakside lår. Stanga nær kroppen hele veien ned og opp.",
         video:"https://youtu.be/tat438g2B90"
@@ -135,16 +145,10 @@ const EXERCISES = {
       {
         id:"hipth", name:"Hip thrust",
         sets:"3×10", load:"20–30 kg", weight:"20–30 kg",
+        group:"2B", supersetNote:"Supersett med 2A",
         note:"Klem setemusklene hardt i topp.",
         desc:"Legg skuldrene mot en benk med stang over hofta. Press hofta rett opp til kroppen er flat som et bord. Hold 1 sekund i topp og klem setemusklene aktivt.",
         video:"https://youtu.be/xDmFkJxPzeM"
-      },
-      {
-        id:"calf-r", name:"Enkeltbens hælhev — høyre",
-        sets:"3×12", load:"Kroppsvekt", weight:null,
-        note:"3 sek ned, opp raskt. Høyre er svakere.",
-        desc:"Stå på høyre fot på kanten av en trappetrinn. Senk hælen sakte i 3 sekunder, deretter opp så raskt som mulig. Hold balansen lett mot veggen.",
-        video:"https://youtu.be/gwLzBJYoWlI"
       },
     ],
     // Fase 2 (uke 3, 5): 5 øvelser, litt mer krevende
@@ -152,13 +156,23 @@ const EXERCISES = {
       {
         id:"goblet2", name:"Goblet knebøy",
         sets:"3×10", load:"12–16 kg", weight:"12–16 kg",
+        group:"1A", supersetNote:"Supersett med 1B — gjør 1A, hvil 60 sek, gjør 1B, hvil 60 sek, gjenta",
         note:"Dypere nå — jobb mot full dybde.",
         desc:"Samme teknikk som uke 1–2, men mer vekt og dypere. Målet er at lårene går under parallell. Hold ryggen nøytral hele veien.",
         video:"https://youtu.be/9coUk68haz0"
       },
       {
+        id:"calf-r2", name:"Enkeltbens hælhev m/vekt — høyre",
+        sets:"3×12", load:"5–8 kg i hånd", weight:"5–8 kg",
+        group:"1B", supersetNote:"Supersett med 1A",
+        note:"Høyre: med vekt. Venstre: kroppsvekt.",
+        desc:"Hold en lett manuell i høyre hånd for ekstra motstand. Høyre ankel er 24% svakere — vi bruker mer belastning på denne siden for å utjevne.",
+        video:"https://youtu.be/gwLzBJYoWlI"
+      },
+      {
         id:"rdl2", name:"Romanian deadlift",
         sets:"3×10", load:"25–35 kg", weight:"25–35 kg",
+        group:"2A", supersetNote:"Supersett med 2B — gjør 2A, hvil 60 sek, gjør 2B, hvil 60 sek, gjenta",
         note:"Hamstring skal brenne — det er riktig.",
         desc:"Mer belastning enn uke 1–2. Stanga nær kroppen, hoften bakover. Kjenn tydelig strekk i bakside lår nederst i bevegelsen.",
         video:"https://youtu.be/tat438g2B90"
@@ -166,6 +180,7 @@ const EXERCISES = {
       {
         id:"hipth2", name:"Hip thrust",
         sets:"4×10", load:"40–55 kg", weight:"40–55 kg",
+        group:"2B", supersetNote:"Supersett med 2A",
         note:"Tyngre nå. Klem 2 sek i topp.",
         desc:"Økt belastning og ett ekstra sett. Hold 2 sekunder i topp med aktiv klemming av setemusklene. Dette er en av de viktigste øvelsene for basketball.",
         video:"https://youtu.be/xDmFkJxPzeM"
@@ -173,16 +188,10 @@ const EXERCISES = {
       {
         id:"stepup", name:"Step-up m/vekt — høyre først",
         sets:"3×8 per bein", load:"6–10 kg per hånd", weight:"6–10 kg/hånd",
-        note:"Start alltid høyre bein.",
+        group:null,
+        note:"Én og én — full hvil mellom sett.",
         desc:"Hold manualene langs siden. Sett høyre fot opp på benken og press deg opp kun med høyre bein. Ikke dytt fra med bakfoten. Kontroller nedgangen.",
         video:"https://youtu.be/5zJHHLsE8Ok"
-      },
-      {
-        id:"calf-r2", name:"Enkeltbens hælhev m/vekt — høyre",
-        sets:"3×12", load:"5–8 kg i hånd", weight:"5–8 kg",
-        note:"Høyre: med vekt. Venstre: kroppsvekt.",
-        desc:"Hold en lett manuell i høyre hånd for ekstra motstand. Høyre ankel er 24% svakere — vi bruker mer belastning på denne siden for å utjevne.",
-        video:"https://youtu.be/gwLzBJYoWlI"
       },
     ],
     // Fase 3 (uke 6–7): 5 øvelser, fullt volum
@@ -190,13 +199,15 @@ const EXERCISES = {
       {
         id:"trapbar", name:"Trapbar markløft",
         sets:"4×5", load:"40–55 kg (RPE 8)", weight:"40–55 kg",
-        note:"Tyngste øvelsen — prioriter teknikk.",
+        group:null, solo:true,
+        note:"Én og én — 2–3 min hvil mellom sett. Aldri i supersett.",
         desc:"Stå inni trapbaren med føttene under hofta. Press gulvet ned og løft ved å strekke hofta og knærne samtidig. Ryggen nøytral og brystet fremover. Øk vekten litt hver uke.",
         video:"https://youtu.be/sqjgTMkHRyM"
       },
       {
         id:"rdl3", name:"Romanian deadlift",
         sets:"4×6", load:"35–50 kg", weight:"35–50 kg",
+        group:"1A", supersetNote:"Supersett med 1B — gjør 1A, hvil 60 sek, gjør 1B, hvil 60 sek, gjenta",
         note:"Tyngst du kan med god teknikk.",
         desc:"Full hamstring-fokus med tyngre belastning. Stanga nær kroppen, hoften bakover. Ikke gå tyngre hvis ryggen runder.",
         video:"https://youtu.be/tat438g2B90"
@@ -204,6 +215,7 @@ const EXERCISES = {
       {
         id:"hipth3", name:"Hip thrust m/pause",
         sets:"4×8", load:"55–70 kg", weight:"55–70 kg",
+        group:"1B", supersetNote:"Supersett med 1A",
         note:"2 sek pause i topp. Gluteus maks.",
         desc:"Tyngst vi har gjort hittil. Hold 2 sekunder i topp med maks klemming. Dette er den øvelsen som mest direkte bygger setemusklene for basketball.",
         video:"https://youtu.be/xDmFkJxPzeM"
@@ -211,14 +223,16 @@ const EXERCISES = {
       {
         id:"imtp", name:"Isometrisk midthogg (IMTP)",
         sets:"3×3 × 5 sek", load:"Maks innsats", weight:null,
-        note:"Trekk som om du vil rive stangen ut av jorda.",
+        group:null, solo:true,
+        note:"Én og én — 2–3 min hvil. Maks innsats krever full restitusjon.",
         desc:"Still stangen fast i et stativ i midthogg-posisjon (mot knærne). Trekk oppover med absolutt maks kraft i 5 sekunder. Dette etterligner VALD-testen og bygger direkte maks-styrke.",
         video:"https://youtu.be/quDsJFbsOwE"
       },
       {
         id:"calf-r3", name:"Enkeltbens hælhev m/vekt — høyre",
         sets:"4×12", load:"8–12 kg", weight:"8–12 kg",
-        note:"Høyre tungt. Venstre vedlikehold (3×10, lett).",
+        group:null,
+        note:"Høyre tungt. Venstre vedlikehold (3×10, lett) etterpå.",
         desc:"Tyngste ankelbelastning i programmet. Høyre side er fortsatt prioritert. Gjør også 3×10 venstre med 2–5 kg etterpå som vedlikehold.",
         video:"https://youtu.be/gwLzBJYoWlI"
       },
@@ -231,13 +245,23 @@ const EXERCISES = {
       {
         id:"splitt", name:"Splittknebøy",
         sets:"3×8 per bein", load:"Kroppsvekt", weight:null,
+        group:"1A", supersetNote:"Supersett med 1B — gjør 1A, hvil 60 sek, gjør 1B, hvil 60 sek, gjenta",
         note:"Start uten vekt — lær balansen først.",
         desc:"Ta et langt skritt frem. Senk bakkneet mot gulvet til begge kne er 90 grader. Press opp med fremre bein. Ingen vekter de første ukene — fokus på balanse og posisjon.",
         video:"https://youtu.be/uYumuL_G_V0"
       },
       {
+        id:"balance1", name:"Balansestående — høyre bein",
+        sets:"3×20 sek", load:"Øyne åpne", weight:null,
+        group:"1B", supersetNote:"Supersett med 1A",
+        note:"Start med øyne åpne. Lukk dem når det føles stabilt.",
+        desc:"Stå på høyre fot med lett bøy i kneet. Hold hoften stabil. Begynn med åpne øyne og lutt dem etterhvert. Trener ankelstabilitet og kroppssans.",
+        video:"https://youtu.be/6lCMIBqnXmk"
+      },
+      {
         id:"bench1", name:"Pushup",
         sets:"3×8", load:"Kroppsvekt", weight:null,
+        group:"2A", supersetNote:"Supersett med 2B — gjør 2A, hvil 60 sek, gjør 2B, hvil 60 sek, gjenta",
         note:"Rett linje fra hæl til hode hele veien.",
         desc:"Hender litt bredere enn skulderbredde. Senk brystet mot gulvet med kontroll og press opp. Kjernen er stram — ingen sagning i midten. Start på knærne hvis dette er for tungt.",
         video:"https://youtu.be/SCVCLChPQFY"
@@ -245,29 +269,33 @@ const EXERCISES = {
       {
         id:"plank1", name:"Planke",
         sets:"3×20 sek", load:"Kroppsvekt", weight:null,
+        group:"2B", supersetNote:"Supersett med 2A",
         note:"Rett linje — ikke la hoften synke.",
         desc:"Hold plankeposisjon på underarmer og tær. Stram magen og setemusklene. Rett linje fra hæl til hode. 20 sekunder er nok i starten — øk gradvis.",
         video:"https://youtu.be/pSHjTRCQxIw"
-      },
-      {
-        id:"balance1", name:"Balansestående — høyre bein",
-        sets:"3×20 sek", load:"Øyne åpne", weight:null,
-        note:"Start med øyne åpne. Lukk dem når det føles stabilt.",
-        desc:"Stå på høyre fot med lett bøy i kneet. Hold hoften stabil. Begynn med åpne øyne og lutt dem etterhvert. Trener ankelstabilitet og kroppssans.",
-        video:"https://youtu.be/6lCMIBqnXmk"
       },
     ],
     fase2: [
       {
         id:"bulg1", name:"Bulgarsk splittknebøy",
         sets:"3×8 per bein", load:"6–10 kg per hånd", weight:"6–10 kg/hånd",
+        group:"1A", supersetNote:"Supersett med 1B — gjør 1A, hvil 60 sek, gjør 1B, hvil 60 sek, gjenta",
         note:"Bakfoten på benk. Start høyre.",
         desc:"Legg bakfoten på en benk, fremfoten langt fremme. Hold lette manualene langs siden. Senk bakkneet mot gulvet. Mer krevende enn vanlig splittknebøy — ta det lett med vekten første gang.",
         video:"https://youtu.be/2C-uNgKwPLE"
       },
       {
+        id:"balance2", name:"Balansestående — høyre bein",
+        sets:"3×30 sek", load:"Øyne lukket", weight:null,
+        group:"1B", supersetNote:"Supersett med 1A",
+        note:"Nå lukker vi øynene.",
+        desc:"Øyne lukket på høyre bein. Mye vanskeligere enn uke 1–2. Prøv å holde hoften stabil uten å synke til siden. Bruk en vegg nær deg de første gangene.",
+        video:"https://youtu.be/6lCMIBqnXmk"
+      },
+      {
         id:"bench2", name:"Benkpress / pushup m/vekt",
         sets:"3×10", load:"25–35 kg", weight:"25–35 kg",
+        group:"2A", supersetNote:"Supersett med 2B — gjør 2A, hvil 60 sek, gjør 2B, hvil 60 sek, gjenta",
         note:"Skulderblader sammentrukket.",
         desc:"Legg deg på benken. Hold stangen over brystet med litt bredere enn skulderbredde grep. Press opp mens skulderbladene er trukket sammen og ryggen er flat.",
         video:"https://youtu.be/SCVCLChPQFY"
@@ -275,43 +303,49 @@ const EXERCISES = {
       {
         id:"plank2", name:"Planke + sidesteg m/band",
         sets:"3×20 sek + 12 rep", load:"Lett motstandsband", weight:null,
+        group:"2B", supersetNote:"Supersett med 2A",
         note:"Kjernen stram under begge deler.",
         desc:"Hold planke i 20 sekunder. Deretter: band rundt anklene, ta 12 steg sidelengs med kontrollerte hofter. Trener kjernen og hofteabduktorene.",
         video:"https://youtu.be/pSHjTRCQxIw"
       },
       {
-        id:"balance2", name:"Balansestående — høyre bein",
-        sets:"3×30 sek", load:"Øyne lukket", weight:null,
-        note:"Nå lukker vi øynene.",
-        desc:"Øyne lukket på høyre bein. Mye vanskeligere enn uke 1–2. Prøv å holde hoften stabil uten å synke til siden. Bruk en vegg nær deg de første gangene.",
-        video:"https://youtu.be/6lCMIBqnXmk"
-      },
-      {
         id:"lat-ank", name:"Lateral ankelstabilitet m/band",
         sets:"3×12", load:"Lett motstandsband", weight:null,
-        note:"Peroneus — viktig for retningsskift.",
+        group:null,
+        note:"Én og én — avslutt med dette.",
         desc:"Band rundt ankelen. Stå på ett bein og press foten ut mot siden mot bandets motstand. Disse musklene holder ankelen stabil ved landing og retningsskift i basketball.",
         video:"https://youtu.be/PG-TvRNxATs"
       },
     ],
     fase3: [
       {
+        id:"nordic", name:"Nordic Hamstring curl",
+        sets:"3×4", load:"Kroppsvekt", weight:null,
+        group:null, solo:true,
+        note:"Én og én — full hvil. Høy nevral krevning.",
+        desc:"Kneel med føttene festet (partner eller under benk). Senk kroppen fremover så sakte du klarer. Brems med bakside lår — ikke armene. Skyv opp med hendene. Viktigste skadeforebyggende øvelse for bakside lår.",
+        video:"https://youtu.be/d8AAPcAzCnY"
+      },
+      {
         id:"bulg2", name:"Bulgarsk splittknebøy",
         sets:"4×8 per bein", load:"10–16 kg per hånd", weight:"10–16 kg/hånd",
+        group:"1A", supersetNote:"Supersett med 1B — gjør 1A, hvil 60 sek, gjør 1B, hvil 60 sek, gjenta",
         note:"Tyngst hittil. Start høyre alltid.",
         desc:"Mer vekt enn uke 3–5. Hold manualene langs siden. Fokus på at fremre kne ikke kollapser innover. Dette er en av de beste basketballspesifikke øvelsene.",
         video:"https://youtu.be/2C-uNgKwPLE"
       },
       {
-        id:"nordic", name:"Nordic Hamstring curl",
-        sets:"3×4", load:"Kroppsvekt", weight:null,
-        note:"Kun eksentrisk — skyv opp med hendene.",
-        desc:"Kneel med føttene festet (partner eller under benk). Senk kroppen fremover så sakte du klarer. Brems med bakside lår — ikke armene. Skyv opp med hendene. Viktigste skadeforebyggende øvelse for bakside lår.",
-        video:"https://youtu.be/d8AAPcAzCnY"
+        id:"balance3", name:"Balansestående — høyre bein",
+        sets:"3×30 sek", load:"Øyne lukket / ustabilt underlag", weight:null,
+        group:"1B", supersetNote:"Supersett med 1A",
+        note:"Bruk balansebrett hvis tilgjengelig.",
+        desc:"Øyne lukket på høyre bein, gjerne på et ustabilt underlag (balansebrett, sammenrullet håndkle). Maksimal utfordring for ankelstabilitet.",
+        video:"https://youtu.be/6lCMIBqnXmk"
       },
       {
         id:"bench3", name:"Benkpress",
         sets:"3×8", load:"30–40 kg", weight:"30–40 kg",
+        group:"2A", supersetNote:"Supersett med 2B — gjør 2A, hvil 60 sek, gjør 2B, hvil 60 sek, gjenta",
         note:"Kontrollert ned, eksplosivt opp.",
         desc:"Full benkpress med stang. Senk kontrollert til brystet og press eksplosivt opp. Skulderblader sammentrukket og ryggen flat mot benken.",
         video:"https://youtu.be/SCVCLChPQFY"
@@ -319,16 +353,10 @@ const EXERCISES = {
       {
         id:"plank3", name:"Planke + sidesteg m/band",
         sets:"3×30 sek + 15 rep", load:"Middels motstandsband", weight:null,
+        group:"2B", supersetNote:"Supersett med 2A",
         note:"Lenger planke og mer motstand nå.",
         desc:"30 sekunder planke + 15 sidelengs steg med sterkere band. Hold hoftene stabile og unngå at de synker under planken.",
         video:"https://youtu.be/pSHjTRCQxIw"
-      },
-      {
-        id:"balance3", name:"Balansestående — høyre bein",
-        sets:"3×30 sek", load:"Øyne lukket / ustabilt underlag", weight:null,
-        note:"Bruk balansebrett hvis tilgjengelig.",
-        desc:"Øyne lukket på høyre bein, gjerne på et ustabilt underlag (balansebrett, sammenrullet håndkle). Maksimal utfordring for ankelstabilitet.",
-        video:"https://youtu.be/6lCMIBqnXmk"
       },
     ],
   },
@@ -689,60 +717,107 @@ function getWeekColor(type) {
 
 const DAY_NAMES = ["","Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag","Søndag"];
 
+// ── SUPERSET BADGE COLORS ────────────────────────────────────
+const SUPERSET_COLORS = {
+  "1A": { color: "#F97316", bg: "#1C0A00" },
+  "1B": { color: "#F97316", bg: "#1C0A00" },
+  "2A": { color: "#A78BFA", bg: "#1A0533" },
+  "2B": { color: "#A78BFA", bg: "#1A0533" },
+};
+
 // ── EXERCISE CARD ─────────────────────────────────────────────
-function ExerciseCard({ ex, done, onToggle }) {
+function ExerciseCard({ ex, done, onToggle, isLastInGroup, isFirstInGroup }) {
   const [open, setOpen] = useState(false);
+  const sc = ex.group ? SUPERSET_COLORS[ex.group] : null;
+  const isSolo = ex.solo || (!ex.group);
+
   return (
-    <div style={{
-      background: done ? `${C.done}12` : C.card2,
-      border: `1px solid ${done ? C.done + "60" : C.border}`,
-      borderRadius: 12, marginBottom: 8, overflow: "hidden",
-    }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", cursor: "pointer" }}
-        onClick={() => setOpen(!open)}>
-        <button onClick={e => { e.stopPropagation(); onToggle(); }}
-          style={{
-            width: 30, height: 30, borderRadius: "50%", flexShrink: 0, cursor: "pointer",
-            border: `2px solid ${done ? C.done : C.border}`,
-            background: done ? C.done : "transparent",
-            color: "#000", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-          {done ? "✓" : ""}
-        </button>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 14, fontWeight: 600, color: done ? C.muted : C.text, textDecoration: done ? "line-through" : "none", lineHeight: 1.3 }}>
-            {ex.name}
-          </div>
-          <div style={{ display: "flex", gap: 6, alignItems: "center", marginTop: 2, flexWrap: "wrap" }}>
-            <span style={{ fontSize: 12, color: C.styrke, fontWeight: 700 }}>{ex.sets}</span>
-            {ex.weight && (
-              <span style={{ fontSize: 11, background: `${C.travel}20`, color: C.travel, padding: "1px 7px", borderRadius: 99, fontWeight: 600 }}>
-                ⚖️ {ex.weight}
-              </span>
-            )}
-          </div>
-        </div>
-        <span style={{ color: C.muted, fontSize: 11 }}>{open ? "▲" : "▼"}</span>
-      </div>
-      {open && (
-        <div style={{ padding: "0 14px 14px 56px", borderTop: `1px solid ${C.border}` }}>
-          <div style={{ paddingTop: 10, display: "flex", flexDirection: "column", gap: 8 }}>
-            {ex.desc && (
-              <div style={{ fontSize: 13, color: C.text, lineHeight: 1.6, background: `${C.styrke}08`, borderRadius: 8, padding: "8px 10px", borderLeft: `3px solid ${C.styrke}40` }}>
-                {ex.desc}
-              </div>
-            )}
-            <div style={{ fontSize: 12, color: C.muted }}>
-              <span style={{ color: C.text, fontWeight: 600 }}>Belastning: </span>{ex.load}
-            </div>
-            {ex.note && <div style={{ fontSize: 12, color: C.muted, fontStyle: "italic" }}>💡 {ex.note}</div>}
-            <a href={ex.video} target="_blank" rel="noopener noreferrer"
-              style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#1a0000", border: "1px solid #ff000040", color: "#ff4444", borderRadius: 8, padding: "7px 12px", fontSize: 12, fontWeight: 700, textDecoration: "none", marginTop: 4, width: "fit-content" }}>
-              ▶ Se instruksjonsvideo
-            </a>
-          </div>
-        </div>
+    <div style={{ position: "relative", marginBottom: isLastInGroup ? 16 : 0 }}>
+      {/* Supersett connector line */}
+      {ex.group && !isLastInGroup && (
+        <div style={{
+          position: "absolute", left: 19, top: "100%", width: 2, height: 10,
+          background: sc?.color, zIndex: 2, opacity: 0.5,
+        }} />
       )}
+      <div style={{
+        background: done ? `${C.done}12` : C.card2,
+        border: `1px solid ${done ? C.done + "60" : sc ? sc.color + "50" : C.border}`,
+        borderRadius: 12, marginBottom: isLastInGroup ? 0 : 2, overflow: "hidden",
+      }}>
+        {/* Supersett label bar */}
+        {ex.group && isFirstInGroup && (
+          <div style={{ background: sc?.bg, borderBottom: `1px solid ${sc?.color}30`, padding: "4px 14px", display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ fontSize: 10, fontWeight: 800, color: sc?.color, letterSpacing: "0.1em" }}>
+              SUPERSETT {ex.group.replace("A","").replace("B","")}
+            </span>
+            <span style={{ fontSize: 10, color: sc?.color, opacity: 0.7 }}>
+              Gjør A → hvil 60 sek → gjør B → hvil 60 sek → gjenta
+            </span>
+          </div>
+        )}
+        {ex.group && !isFirstInGroup && (
+          <div style={{ background: sc?.bg, borderBottom: `1px solid ${sc?.color}30`, padding: "3px 14px" }}>
+            <span style={{ fontSize: 10, fontWeight: 700, color: sc?.color, opacity: 0.8 }}>
+              {ex.group} — par med øvelsen over
+            </span>
+          </div>
+        )}
+        {isSolo && ex.solo && (
+          <div style={{ background: "#0A1929", borderBottom: `1px solid ${C.styrke}20`, padding: "3px 14px" }}>
+            <span style={{ fontSize: 10, fontWeight: 700, color: C.styrke, opacity: 0.8 }}>
+              ÉN OG ÉN — full hvil mellom sett
+            </span>
+          </div>
+        )}
+
+        <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", cursor: "pointer" }}
+          onClick={() => setOpen(!open)}>
+          <button onClick={e => { e.stopPropagation(); onToggle(); }}
+            style={{
+              width: 30, height: 30, borderRadius: "50%", flexShrink: 0, cursor: "pointer",
+              border: `2px solid ${done ? C.done : sc ? sc.color : C.border}`,
+              background: done ? C.done : "transparent",
+              color: "#000", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+            {done ? "✓" : ""}
+          </button>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: done ? C.muted : C.text, textDecoration: done ? "line-through" : "none", lineHeight: 1.3 }}>
+              {ex.group && <span style={{ color: sc?.color, fontWeight: 800, marginRight: 4 }}>{ex.group}</span>}
+              {ex.name}
+            </div>
+            <div style={{ display: "flex", gap: 6, alignItems: "center", marginTop: 2, flexWrap: "wrap" }}>
+              <span style={{ fontSize: 12, color: C.styrke, fontWeight: 700 }}>{ex.sets}</span>
+              {ex.weight && (
+                <span style={{ fontSize: 11, background: `${C.travel}20`, color: C.travel, padding: "1px 7px", borderRadius: 99, fontWeight: 600 }}>
+                  ⚖️ {ex.weight}
+                </span>
+              )}
+            </div>
+          </div>
+          <span style={{ color: C.muted, fontSize: 11 }}>{open ? "▲" : "▼"}</span>
+        </div>
+        {open && (
+          <div style={{ padding: "0 14px 14px 56px", borderTop: `1px solid ${C.border}` }}>
+            <div style={{ paddingTop: 10, display: "flex", flexDirection: "column", gap: 8 }}>
+              {ex.desc && (
+                <div style={{ fontSize: 13, color: C.text, lineHeight: 1.6, background: `${C.styrke}08`, borderRadius: 8, padding: "8px 10px", borderLeft: `3px solid ${C.styrke}40` }}>
+                  {ex.desc}
+                </div>
+              )}
+              <div style={{ fontSize: 12, color: C.muted }}>
+                <span style={{ color: C.text, fontWeight: 600 }}>Belastning: </span>{ex.load}
+              </div>
+              {ex.note && <div style={{ fontSize: 12, color: C.muted, fontStyle: "italic" }}>💡 {ex.note}</div>}
+              <a href={ex.video} target="_blank" rel="noopener noreferrer"
+                style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#1a0000", border: "1px solid #ff000040", color: "#ff4444", borderRadius: 8, padding: "7px 12px", fontSize: 12, fontWeight: 700, textDecoration: "none", marginTop: 4, width: "fit-content" }}>
+                ▶ Se instruksjonsvideo
+              </a>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -772,13 +847,21 @@ function SessionBlock({ sessionId, weekNum, completions, onToggle }) {
           {doneCount}/{exList.length}
         </div>
       </div>
-      {exList.map(ex => (
-        <ExerciseCard
-          key={ex.id} ex={ex}
-          done={!!completions[`${weekNum}|${sessionId}|${ex.id}`]}
-          onToggle={() => onToggle(weekNum, sessionId, ex.id)}
-        />
-      ))}
+      {exList.map((ex, i) => {
+        const prevGroup = i > 0 ? exList[i-1].group : null;
+        const nextGroup = i < exList.length - 1 ? exList[i+1].group : null;
+        const isFirstInGroup = ex.group && ex.group !== prevGroup;
+        const isLastInGroup = !ex.group || ex.group !== nextGroup;
+        return (
+          <ExerciseCard
+            key={ex.id} ex={ex}
+            done={!!completions[`${weekNum}|${sessionId}|${ex.id}`]}
+            onToggle={() => onToggle(weekNum, sessionId, ex.id)}
+            isFirstInGroup={isFirstInGroup}
+            isLastInGroup={isLastInGroup}
+          />
+        );
+      })}
     </div>
   );
 }
