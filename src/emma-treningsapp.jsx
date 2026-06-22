@@ -71,22 +71,20 @@ const WEEKS = [
 
 const SESSION_MAP = {
   intro1: {
-    1: ["styrke-a", "plyo-intro", "ankel-lett"],
+    1: ["styrke-a", "plyo-intro"],
     3: ["ankel-lett"],
-    5: ["styrke-b", "plyo-intro", "ankel-lett"],
+    5: ["styrke-b", "plyo-intro"],
   },
   intro2: {
-    1: ["styrke-a", "plyo-intro", "ankel-lett"],
+    1: ["styrke-a", "plyo-intro"],
     3: ["plyo-intro", "ankel-lett"],
-    5: ["styrke-b", "plyo-intro", "ankel-lett"],
+    5: ["styrke-b", "plyo-intro"],
     6: ["ankel-lett"],
   },
   full: {
     1: ["styrke-a", "plyo", "ankel"],
     3: ["styrke-b", "ankel"],
     5: ["styrke-a", "plyo", "ankel"],
-    6: ["ankel"],
-    7: ["ankel"],
   },
   travel: {
     1: ["reise"], 3: ["reise"], 5: ["reise"],
@@ -122,31 +120,23 @@ const EXERCISES = {
         id:"goblet", name:"Goblet knebøy",
         sets:"3×8", load:"8–12 kg", weight:"8–12 kg",
         group:"1A", supersetNote:"Supersett med 1B — gjør 1A, hvil 60 sek, gjør 1B, hvil 60 sek, gjenta",
-        note:"Teknikk-fokus. Ryggen rett, brystet oppe.",
+        note:"Teknikk-fokus. Ryggen rett, brystet oppe. (Hælhev gjøres i ankelprotokollen etter)",
         desc:"Hold en kettlebell eller manuell inntil brystet. Stå skulderbredde og senk deg ned til lårene er parallelle. Fokus på rett rygg og at knærne følger tærne.",
         video:"https://youtu.be/9coUk68haz0"
       },
       {
-        id:"calf-r", name:"Enkeltbens hælhev — høyre",
-        sets:"3×12", load:"Kroppsvekt", weight:null,
-        group:"1B", supersetNote:"Supersett med 1A",
-        note:"3 sek ned, opp raskt. Høyre er svakere.",
-        desc:"Stå på høyre fot på kanten av en trappetrinn. Senk hælen sakte i 3 sekunder, deretter opp så raskt som mulig. Hold balansen lett mot veggen.",
-        video:"https://youtu.be/gwLzBJYoWlI"
-      },
-      {
         id:"rdl", name:"Romanian deadlift",
         sets:"3×8", load:"15–20 kg", weight:"15–20 kg",
-        group:"2A", supersetNote:"Supersett med 2B — gjør 2A, hvil 60 sek, gjør 2B, hvil 60 sek, gjenta",
-        note:"3 sek ned. Hoften bakover, ikke ned.",
+        group:"1B", supersetNote:"Supersett med 1A",
+        note:"3 sek ned. Hoften bakover, ikke ned. Hælhev tas i ankelprotokollen etterpå.",
         desc:"Hold stang eller manualene foran låra. Heng fremover fra hofta med lett bøy i knærne og kjenn strekkingen i bakside lår. Stanga nær kroppen hele veien ned og opp.",
         video:"https://youtu.be/tat438g2B90"
       },
       {
         id:"hipth", name:"Hip thrust",
         sets:"3×10", load:"20–30 kg", weight:"20–30 kg",
-        group:"2B", supersetNote:"Supersett med 2A",
-        note:"Klem setemusklene hardt i topp.",
+        group:null,
+        note:"Én og én etter supersett 1. Klem setemusklene hardt i topp.",
         desc:"Legg skuldrene mot en benk med stang over hofta. Press hofta rett opp til kroppen er flat som et bord. Hold 1 sekund i topp og klem setemusklene aktivt.",
         video:"https://youtu.be/xDmFkJxPzeM"
       },
@@ -156,18 +146,10 @@ const EXERCISES = {
       {
         id:"goblet2", name:"Goblet knebøy",
         sets:"3×10", load:"12–16 kg", weight:"12–16 kg",
-        group:"1A", supersetNote:"Supersett med 1B — gjør 1A, hvil 60 sek, gjør 1B, hvil 60 sek, gjenta",
-        note:"Dypere nå — jobb mot full dybde.",
+        group:null,
+        note:"Én og én. Dypere nå — jobb mot full dybde.",
         desc:"Samme teknikk som uke 1–2, men mer vekt og dypere. Målet er at lårene går under parallell. Hold ryggen nøytral hele veien.",
         video:"https://youtu.be/9coUk68haz0"
-      },
-      {
-        id:"calf-r2", name:"Enkeltbens hælhev m/vekt — høyre",
-        sets:"3×12", load:"5–8 kg i hånd", weight:"5–8 kg",
-        group:"1B", supersetNote:"Supersett med 1A",
-        note:"Høyre: med vekt. Venstre: kroppsvekt.",
-        desc:"Hold en lett manuell i høyre hånd for ekstra motstand. Høyre ankel er 24% svakere — vi bruker mer belastning på denne siden for å utjevne.",
-        video:"https://youtu.be/gwLzBJYoWlI"
       },
       {
         id:"rdl2", name:"Romanian deadlift",
@@ -180,7 +162,7 @@ const EXERCISES = {
       {
         id:"hipth2", name:"Hip thrust",
         sets:"4×10", load:"40–55 kg", weight:"40–55 kg",
-        group:"2B", supersetNote:"Supersett med 2A",
+        group:"1B", supersetNote:"Supersett med 1A",
         note:"Tyngre nå. Klem 2 sek i topp.",
         desc:"Økt belastning og ett ekstra sett. Hold 2 sekunder i topp med aktiv klemming av setemusklene. Dette er en av de viktigste øvelsene for basketball.",
         video:"https://youtu.be/xDmFkJxPzeM"
@@ -228,14 +210,6 @@ const EXERCISES = {
         desc:"Still stangen fast i et stativ i midthogg-posisjon (mot knærne). Trekk oppover med absolutt maks kraft i 5 sekunder. Dette etterligner VALD-testen og bygger direkte maks-styrke.",
         video:"https://youtu.be/quDsJFbsOwE"
       },
-      {
-        id:"calf-r3", name:"Enkeltbens hælhev m/vekt — høyre",
-        sets:"4×12", load:"8–12 kg", weight:"8–12 kg",
-        group:null,
-        note:"Høyre tungt. Venstre vedlikehold (3×10, lett) etterpå.",
-        desc:"Tyngste ankelbelastning i programmet. Høyre side er fortsatt prioritert. Gjør også 3×10 venstre med 2–5 kg etterpå som vedlikehold.",
-        video:"https://youtu.be/gwLzBJYoWlI"
-      },
     ],
   },
 
@@ -245,23 +219,15 @@ const EXERCISES = {
       {
         id:"splitt", name:"Splittknebøy",
         sets:"3×8 per bein", load:"Kroppsvekt", weight:null,
-        group:"1A", supersetNote:"Supersett med 1B — gjør 1A, hvil 60 sek, gjør 1B, hvil 60 sek, gjenta",
+        group:"1A", supersetNote:"Supersett med 1B (Pushup) — gjør 1A, hvil 60 sek, gjør 1B, hvil 60 sek, gjenta",
         note:"Start uten vekt — lær balansen først.",
         desc:"Ta et langt skritt frem. Senk bakkneet mot gulvet til begge kne er 90 grader. Press opp med fremre bein. Ingen vekter de første ukene — fokus på balanse og posisjon.",
         video:"https://youtu.be/uYumuL_G_V0"
       },
       {
-        id:"balance1", name:"Balansestående — høyre bein",
-        sets:"3×20 sek", load:"Øyne åpne", weight:null,
-        group:"1B", supersetNote:"Supersett med 1A",
-        note:"Start med øyne åpne. Lukk dem når det føles stabilt.",
-        desc:"Stå på høyre fot med lett bøy i kneet. Hold hoften stabil. Begynn med åpne øyne og lutt dem etterhvert. Trener ankelstabilitet og kroppssans.",
-        video:"https://youtu.be/6lCMIBqnXmk"
-      },
-      {
         id:"bench1", name:"Pushup",
         sets:"3×8", load:"Kroppsvekt", weight:null,
-        group:"2A", supersetNote:"Supersett med 2B — gjør 2A, hvil 60 sek, gjør 2B, hvil 60 sek, gjenta",
+        group:"1B", supersetNote:"Supersett med 1A (Splittknebøy)",
         note:"Rett linje fra hæl til hode hele veien.",
         desc:"Hender litt bredere enn skulderbredde. Senk brystet mot gulvet med kontroll og press opp. Kjernen er stram — ingen sagning i midten. Start på knærne hvis dette er for tungt.",
         video:"https://youtu.be/SCVCLChPQFY"
@@ -269,8 +235,8 @@ const EXERCISES = {
       {
         id:"plank1", name:"Planke",
         sets:"3×20 sek", load:"Kroppsvekt", weight:null,
-        group:"2B", supersetNote:"Supersett med 2A",
-        note:"Rett linje — ikke la hoften synke.",
+        group:null,
+        note:"Én og én etter supersett. Rett linje — ikke la hoften synke.",
         desc:"Hold plankeposisjon på underarmer og tær. Stram magen og setemusklene. Rett linje fra hæl til hode. 20 sekunder er nok i starten — øk gradvis.",
         video:"https://youtu.be/pSHjTRCQxIw"
       },
@@ -279,23 +245,15 @@ const EXERCISES = {
       {
         id:"bulg1", name:"Bulgarsk splittknebøy",
         sets:"3×8 per bein", load:"6–10 kg per hånd", weight:"6–10 kg/hånd",
-        group:"1A", supersetNote:"Supersett med 1B — gjør 1A, hvil 60 sek, gjør 1B, hvil 60 sek, gjenta",
+        group:"1A", supersetNote:"Supersett med 1B (Benkpress) — gjør 1A, hvil 60 sek, gjør 1B, hvil 60 sek, gjenta",
         note:"Bakfoten på benk. Start høyre.",
         desc:"Legg bakfoten på en benk, fremfoten langt fremme. Hold lette manualene langs siden. Senk bakkneet mot gulvet. Mer krevende enn vanlig splittknebøy — ta det lett med vekten første gang.",
         video:"https://youtu.be/2C-uNgKwPLE"
       },
       {
-        id:"balance2", name:"Balansestående — høyre bein",
-        sets:"3×30 sek", load:"Øyne lukket", weight:null,
-        group:"1B", supersetNote:"Supersett med 1A",
-        note:"Nå lukker vi øynene.",
-        desc:"Øyne lukket på høyre bein. Mye vanskeligere enn uke 1–2. Prøv å holde hoften stabil uten å synke til siden. Bruk en vegg nær deg de første gangene.",
-        video:"https://youtu.be/6lCMIBqnXmk"
-      },
-      {
         id:"bench2", name:"Benkpress / pushup m/vekt",
         sets:"3×10", load:"25–35 kg", weight:"25–35 kg",
-        group:"2A", supersetNote:"Supersett med 2B — gjør 2A, hvil 60 sek, gjør 2B, hvil 60 sek, gjenta",
+        group:"1B", supersetNote:"Supersett med 1A (Bulgarsk splittknebøy)",
         note:"Skulderblader sammentrukket.",
         desc:"Legg deg på benken. Hold stangen over brystet med litt bredere enn skulderbredde grep. Press opp mens skulderbladene er trukket sammen og ryggen er flat.",
         video:"https://youtu.be/SCVCLChPQFY"
@@ -303,8 +261,8 @@ const EXERCISES = {
       {
         id:"plank2", name:"Planke + sidesteg m/band",
         sets:"3×20 sek + 12 rep", load:"Lett motstandsband", weight:null,
-        group:"2B", supersetNote:"Supersett med 2A",
-        note:"Kjernen stram under begge deler.",
+        group:null,
+        note:"Én og én. Kjernen stram under begge deler.",
         desc:"Hold planke i 20 sekunder. Deretter: band rundt anklene, ta 12 steg sidelengs med kontrollerte hofter. Trener kjernen og hofteabduktorene.",
         video:"https://youtu.be/pSHjTRCQxIw"
       },
@@ -329,23 +287,15 @@ const EXERCISES = {
       {
         id:"bulg2", name:"Bulgarsk splittknebøy",
         sets:"4×8 per bein", load:"10–16 kg per hånd", weight:"10–16 kg/hånd",
-        group:"1A", supersetNote:"Supersett med 1B — gjør 1A, hvil 60 sek, gjør 1B, hvil 60 sek, gjenta",
+        group:"1A", supersetNote:"Supersett med 1B (Benkpress) — gjør 1A, hvil 60 sek, gjør 1B, hvil 60 sek, gjenta",
         note:"Tyngst hittil. Start høyre alltid.",
         desc:"Mer vekt enn uke 3–5. Hold manualene langs siden. Fokus på at fremre kne ikke kollapser innover. Dette er en av de beste basketballspesifikke øvelsene.",
         video:"https://youtu.be/2C-uNgKwPLE"
       },
       {
-        id:"balance3", name:"Balansestående — høyre bein",
-        sets:"3×30 sek", load:"Øyne lukket / ustabilt underlag", weight:null,
-        group:"1B", supersetNote:"Supersett med 1A",
-        note:"Bruk balansebrett hvis tilgjengelig.",
-        desc:"Øyne lukket på høyre bein, gjerne på et ustabilt underlag (balansebrett, sammenrullet håndkle). Maksimal utfordring for ankelstabilitet.",
-        video:"https://youtu.be/6lCMIBqnXmk"
-      },
-      {
         id:"bench3", name:"Benkpress",
         sets:"3×8", load:"30–40 kg", weight:"30–40 kg",
-        group:"2A", supersetNote:"Supersett med 2B — gjør 2A, hvil 60 sek, gjør 2B, hvil 60 sek, gjenta",
+        group:"1B", supersetNote:"Supersett med 1A (Bulgarsk splittknebøy)",
         note:"Kontrollert ned, eksplosivt opp.",
         desc:"Full benkpress med stang. Senk kontrollert til brystet og press eksplosivt opp. Skulderblader sammentrukket og ryggen flat mot benken.",
         video:"https://youtu.be/SCVCLChPQFY"
@@ -353,8 +303,8 @@ const EXERCISES = {
       {
         id:"plank3", name:"Planke + sidesteg m/band",
         sets:"3×30 sek + 15 rep", load:"Middels motstandsband", weight:null,
-        group:"2B", supersetNote:"Supersett med 2A",
-        note:"Lenger planke og mer motstand nå.",
+        group:null,
+        note:"Én og én. Lenger planke og mer motstand nå.",
         desc:"30 sekunder planke + 15 sidelengs steg med sterkere band. Hold hoftene stabile og unngå at de synker under planken.",
         video:"https://youtu.be/pSHjTRCQxIw"
       },
@@ -388,36 +338,22 @@ const EXERCISES = {
     ],
   },
 
-  // ── ANKEL FULL (uke 6–7) ───────────────────────────────────
+  // ── ANKEL FULL (uke 6–8) ───────────────────────────────────
   "ankel": {
     fase1: [
       {
         id:"a-cr", name:"Enkeltbens hælhev m/vekt — høyre",
         sets:"4×12", load:"8–12 kg i hånd", weight:"8–12 kg",
-        note:"Tung høyre. Venstre: 3×10 uten vekt.",
-        desc:"Hold en manuell i høyre hånd. Full bevegelsesutslag fra senket til strekt. Høyre ankel jobber nå med ekstern belastning for å utjevne asymmetrien fra 24% mot 12%.",
+        note:"Tung høyre. Gjør 3×10 venstre uten vekt etterpå.",
+        desc:"Hold en manuell i høyre hånd. Full bevegelsesutslag fra senket til strekt. Høyre ankel jobber med ekstern belastning for å utjevne asymmetrien fra 24% mot 12%.",
         video:"https://youtu.be/gwLzBJYoWlI"
       },
       {
-        id:"a-hop", name:"Ankelhopp — høyre bein",
-        sets:"3×10", load:"Kroppsvekt", weight:null,
-        note:"Kort kontakt — reaktivt.",
-        desc:"Raske, stive ankelhopp på høyre bein. Minimal bøy i kne og hofte — all kraft fra ankelen. Myk landing og umiddelbart opp igjen.",
-        video:"https://youtu.be/Yd9VXHRe5Dw"
-      },
-      {
         id:"a-lat", name:"Lateral ankelstabilitet m/band",
-        sets:"3×15", load:"Motstandsband", weight:null,
-        note:"Peroneus — holder ankelen stabil.",
+        sets:"3×12", load:"Motstandsband", weight:null,
+        note:"Peroneus — holder ankelen stabil ved retningsskift.",
         desc:"Band rundt ankelen. Stå på ett bein og press foten lateralt mot bandets motstand. Disse musklene er kritiske for å unngå ankelskader i basketball.",
         video:"https://youtu.be/PG-TvRNxATs"
-      },
-      {
-        id:"a-dorsal", name:"Isometrisk dorsalfleksjon m/band",
-        sets:"3×30 sek", load:"Motstandsband", weight:null,
-        note:"Forsiden av leggen — viktig for landing.",
-        desc:"Sitt med band rundt tåballene. Press foten oppover mot bandets motstand i 30 sekunder. Trener tibialis anterior — stabiliserer ankelen ved landing.",
-        video:"https://youtu.be/lLxGDvHg3EE"
       },
     ],
   },
@@ -617,13 +553,6 @@ const EXERCISES = {
         note:"Teknikk-fokus.",
         desc:"Lett og kontrollert. Gode repetisjoner er viktigere enn tung vekt i broperioden.",
         video:"https://youtu.be/tat438g2B90"
-      },
-      {
-        id:"bro-calf", name:"Enkeltbens hælhev — høyre",
-        sets:"3×12", load:"5–8 kg", weight:"5–8 kg",
-        note:"Fortsett ankelprogresjon.",
-        desc:"Oppretthold ankeltreningen inn mot sesongen. Lett vekt men samme bevisste teknikk. Ikke mist fremgangen fra sommeren.",
-        video:"https://youtu.be/gwLzBJYoWlI"
       },
       {
         id:"bro-drop", name:"Drop jump bilateral",
